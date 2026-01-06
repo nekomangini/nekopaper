@@ -1,0 +1,7 @@
+01-red(Vivid)
+02-green(Growth)
+03-blue(serene)
+04-violet(Royal)
+05-yellow(Radiant)
+06-monochrome(Stark)
+07-multi(Diverse)
