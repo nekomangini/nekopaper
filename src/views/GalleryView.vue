@@ -11,6 +11,7 @@ import mechaImg from '../assets/mecha/mecha_001.webp'
 import neonImg from '../assets/neon/neon_001.webp'
 import otherImg from '../assets/others/others_001.webp'
 import spaceImg from '../assets/space/space_002.webp'
+
 const images = [
   {
     src: abstractImg,
@@ -62,13 +63,15 @@ const images = [
   }
 ]
 </script>
+
 <template>
   <div>
     <h2>Available Categories</h2>
-    <!-- <img :src="images[0]?.src" /> -->
     <div v-for="(img, index) in images" :key="index">
-      <p>{{ img.category }}</p>
-      <img :src="img.src" />
+      <router-link :to="`/${img.category.toLowerCase()}`">
+        <p>{{ img.category }}</p>
+        <img :src="img.src" />
+      </router-link>
     </div>
   </div>
 </template>
