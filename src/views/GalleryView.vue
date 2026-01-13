@@ -13,64 +13,28 @@ import otherImg from '../assets/others/others_001.webp'
 import spaceImg from '../assets/space/space_002.webp'
 
 const images = [
-  {
-    src: abstractImg,
-    category: 'Abstract',
-  },
-  {
-    src: animeImg,
-    category: 'Anime'
-  },
-  {
-    src: artImg,
-    category: 'Arts'
-  },
-  {
-    src: carImg,
-    category: 'Cars'
-  },
-  {
-    src: catImg,
-    category: 'Cats'
-  },
-  {
-    src: dogImg,
-    category: 'Dogs'
-  },
-  {
-    src: enviromentImg,
-    category: 'Environment'
-  },
-  {
-    src: gameImg,
-    category: 'Games'
-  },
-  {
-    src: mechaImg,
-    category: 'Mecha'
-  },
-  {
-    src: neonImg,
-    category: 'Neon'
-  },
-  {
-    src: otherImg,
-    category: 'Others'
-  },
-  {
-    src: spaceImg,
-    category: 'Space'
-  }
+  { src: abstractImg, category: 'Abstract', route: 'abstract' },
+  { src: animeImg, category: 'Anime', route: 'anime' },
+  { src: artImg, category: 'Arts', route: 'arts' },
+  { src: carImg, category: 'Cars', route: 'cars' },
+  { src: catImg, category: 'Cats', route: 'cats' },
+  { src: dogImg, category: 'Dogs', route: 'dogs' },
+  { src: enviromentImg, category: 'Environment', route: 'environment' },
+  { src: gameImg, category: 'Games', route: 'games' },
+  { src: mechaImg, category: 'Mecha', route: 'mecha' },
+  { src: neonImg, category: 'Neon', route: 'neon' },
+  { src: otherImg, category: 'Others', route: 'others' },
+  { src: spaceImg, category: 'Space', route: 'space' }
 ]
 </script>
 
 <template>
   <div>
     <h2>Available Categories</h2>
-    <div v-for="(img, index) in images" :key="index">
-      <router-link :to="`/${img.category.toLowerCase()}`">
+    <div>
+      <router-link v-for="img in images" :key="img.category" :to="`/${img.route}`">
+        <img :src="img.src" :alt="`${img.category} category`" loading="lazy" />
         <p>{{ img.category }}</p>
-        <img :src="img.src" />
       </router-link>
     </div>
   </div>
