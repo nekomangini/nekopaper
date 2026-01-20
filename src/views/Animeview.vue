@@ -1,13 +1,12 @@
 <script setup lang="ts">
+import CategoryGallery from '../components/CategoryGallery.vue';
 import { animeImages } from '../config/images';
 </script>
 
 <template>
   <div>
     <p>Anime View Content</p>
-    <div v-for="(animeImg, index) in animeImages" :key="index">
-      <img :src="animeImg.src" alt="">
-    </div>
+    <CategoryGallery :images="animeImages" categoryName="Anime" />
   </div>
 </template>
 

@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import CategoryGallery from '../components/CategoryGallery.vue';
 import { othersImages } from '../config/images.ts'
 </script>
 
 <template>
   <div>
     <p>Others View Content</p>
-    <div v-for="(othersImg, index) in othersImages" :key="index">
-      <img :src="othersImg.src" alt="">
-    </div>
+
+    <CategoryGallery :images="othersImages" categoryName="Others" />
   </div>
 </template>
 

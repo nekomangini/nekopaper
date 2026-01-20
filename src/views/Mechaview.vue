@@ -1,13 +1,12 @@
 <script setup lang="ts">
+import CategoryGallery from '../components/CategoryGallery.vue';
 import { mechaImages } from '../config/images.ts'
 </script>
 
 <template>
   <div>
     <p>Mecha View Content</p>
-    <div v-for="(mechaImg, index) in mechaImages" :key="index">
-      <img :src="mechaImg.src" alt="">
-    </div>
+    <CategoryGallery :images="mechaImages" categoryName="Mecha" />
   </div>
 </template>
 

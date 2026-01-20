@@ -29,19 +29,79 @@ const images = [
 </script>
 
 <template>
-  <div>
+  <div class="gallery-view">
     <h2>Available Categories</h2>
-    <div>
-      <router-link v-for="img in images" :key="img.category" :to="`/${img.route}`">
+    <p class="category-count">Browse {{ images.length }} categories</p>
+
+    <div class="category-grid">
+      <router-link v-for="img in images" :key="img.category" :to="`/${img.route}`" class="category-card">
         <img :src="img.src" :alt="`${img.category} category`" loading="lazy" />
-        <p>{{ img.category }}</p>
+        <p class="category-name">{{ img.category }}</p>
       </router-link>
     </div>
   </div>
 </template>
 
 <style scoped>
-img {
-  max-width: 300px;
+.gallery-view {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.gallery-view h2 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.category-count {
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.category-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.category-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+}
+
+.category-name {
+  padding: 16px;
+  margin: 0;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  background: #f9f9f9;
+  color: #333;
+}
+
+.category-card:hover .category-name {
+  background: #007bff;
+  color: white;
 }
 </style>
