@@ -1,13 +1,12 @@
 <script setup lang="ts">
+import CategoryGallery from '../components/CategoryGallery.vue';
 import { neonImages } from '../config/images.ts'
 </script>
 
 <template>
   <div>
     <p>Neon View Content</p>
-    <div v-for="(NeonImg, index) in neonImages" :key="index">
-      <img :src="NeonImg.src" alt="">
-    </div>
+    <CategoryGallery :images="neonImages" categoryName="Neon" />
   </div>
 </template>
 

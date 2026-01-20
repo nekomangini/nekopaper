@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import CategoryGallery from '../components/CategoryGallery.vue';
 import { spaceImages } from '../config/images.ts'
 </script>
 
 <template>
   <div>
     <p>Space View Content</p>
-    <div v-for="(spaceImg, index) in spaceImages" :key="index">
-      <img :src="spaceImg.src" alt="">
-    </div>
+
+    <CategoryGallery :images="spaceImages" categoryName="Space" />
   </div>
 </template>
 
