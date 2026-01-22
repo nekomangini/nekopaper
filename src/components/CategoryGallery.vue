@@ -59,8 +59,10 @@ const goToPage = (page: number) => {
     <!-- Image Grid -->
     <div class="image-grid">
       <div v-for="img in paginatedItems" :key="img.src" class="image-item">
-        <img :src="img.src" :alt="img.title" loading="lazy" />
-        <p class="image-title">{{ img.title }}</p>
+        <RouterLink :to="`${img.category}/download/${img.slug}`" class="image-link">
+          <img :src="img.src" :alt="img.title" loading="lazy" />
+          <p class="image-title">{{ img.title }}</p>
+        </RouterLink>
       </div>
     </div>
 
@@ -92,7 +94,7 @@ const goToPage = (page: number) => {
 }
 
 .image-count {
-  color: #666;
+  color: #777;
   margin-bottom: 20px;
 }
 
@@ -128,6 +130,12 @@ const goToPage = (page: number) => {
   text-align: center;
   font-size: 14px;
   background: #f9f9f9;
+}
+
+.image-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 
 .pagination {

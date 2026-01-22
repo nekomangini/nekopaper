@@ -12,6 +12,7 @@ import Mechaview from '../views/Mechaview.vue'
 import Neonview from '../views/Neonview.vue'
 import Othersview from '../views/Othersview.vue'
 import Spaceview from '../views/Spaceview.vue'
+import DownloadView from '../views/DownloadView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -80,6 +81,11 @@ const router = createRouter({
       path: '/space',
       name: 'space',
       component: Spaceview
+    },
+    {
+      path: '/:category/download/:slug',
+      name: 'Download',
+      component: DownloadView
     }
   ]
 })
