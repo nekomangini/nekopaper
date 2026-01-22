@@ -2,6 +2,7 @@ export interface ImageData {
   src: string
   title: string
   category: string
+  slug: string
 }
 
 /**
@@ -22,10 +23,14 @@ export const images: ImageData[] = Object.entries(imageModules).map(
     const category = parts[2] || 'unknown'
     // filename without extension
     const filename = parts[parts.length - 1]?.replace(/\.\w+$/, '') || 'unknown'
+
+    const slug = filename.toLocaleLowerCase().replace(/[_-]/g, '-')
+
     return {
       src,
       title: filename.replace(/[_-]/g, ' '),
-      category
+      category,
+      slug
     }
   }
 )
@@ -35,6 +40,10 @@ export const images: ImageData[] = Object.entries(imageModules).map(
  */
 export const getImagesByCategory = (category: string): ImageData[] => {
   return images.filter(img => img.category === category.toLowerCase())
+}
+
+export const getImageBySlug = (slug: string) => {
+  return images.find(img => img.slug === slug)
 }
 
 /**
