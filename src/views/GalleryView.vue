@@ -56,7 +56,7 @@ const images = [
 }
 
 .category-count {
-  color: #666;
+  color: #777;
   margin-bottom: 30px;
   font-size: 16px;
 }
