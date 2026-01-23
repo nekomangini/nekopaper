@@ -174,7 +174,7 @@ const goToPage = (page: number) => {
 
 .page-info {
   text-align: center;
-  color: #666;
+  color: #777;
   font-size: 14px;
 }
 </style>

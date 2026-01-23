@@ -34,9 +34,9 @@ const categories = [
           <span></span>
         </button>
 
-        <h2 class="site-logo">
+        <h1 class="site-logo">
           <a href="/">{{ siteTitle }}</a>
-        </h2>
+        </h1>
       </div>
     </nav>
 
@@ -65,7 +65,8 @@ const categories = [
 .navbar-header {
   margin: 0;
   padding: 0.12em 1rem;
-  background: rgb(40, 40, 40);
+  background: rgb(var(--background));
+  /* box-shadow: var(--box-shadow); */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   position: sticky;
   top: 0;
@@ -85,10 +86,10 @@ const categories = [
 }
 
 .site-logo a {
-  color: rgb(251, 173, 47);
+  color: var(--accent);
   text-decoration: none;
   font-weight: 700;
-  font-size: 1.4rem;
+  font-size: 2.8rem;
 }
 
 /* --- Hamburger Animation --- */
@@ -109,7 +110,7 @@ const categories = [
   display: block;
   width: 100%;
   height: 2px;
-  background: rgb(189, 183, 136);
+  background: rgb(var(--gray-light));
   border-radius: 2px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -134,11 +135,11 @@ const categories = [
   width: 320px;
   max-height: calc(100vh - 80px);
   background: rgb(50, 50, 50);
-  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--box-shadow);
   border-bottom-right-radius: 12px;
   overflow-y: auto;
   z-index: 99;
-  border: 1px solid rgba(189, 183, 136, 0.1);
+  border: rbga(var(--background-light), 0.1);
 }
 
 .dropdown-header {
@@ -150,7 +151,7 @@ const categories = [
 .dropdown-header h3 {
   margin: 0;
   font-size: 0.8rem;
-  color: rgb(251, 173, 47);
+  color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
@@ -165,7 +166,7 @@ const categories = [
 .category-item {
   display: block;
   padding: 0.9rem 1.5rem;
-  color: rgb(189, 183, 136);
+  color: rgb(var(--accent-light));
   text-decoration: none;
   font-size: 0.95rem;
   transition: all 0.2s ease;
@@ -173,15 +174,15 @@ const categories = [
 }
 
 .category-item:hover {
-  background: rgba(251, 173, 47, 0.05);
-  color: rgb(251, 173, 47);
+  background: rgba(var(--background), 0.5);
+  color: var(--accent);
   padding-left: 1.8rem;
 }
 
 .category-item.active {
-  background: rgba(131, 165, 152, 0.15);
-  color: rgb(131, 165, 152);
-  border-left: 4px solid rgb(131, 165, 152);
+  background: rgb(var(--gray-dark));
+  color: var(--accent-dark);
+  border-left: 4px solid var(--accent-dark);
   font-weight: 600;
 }
 
@@ -209,23 +210,27 @@ const categories = [
   opacity: 0;
 }
 
+/* TODO: search function */
 /* Custom scrollbar for dropdown */
 .dropdown-menu::-webkit-scrollbar,
 .search-results-content::-webkit-scrollbar {
   width: 6px;
 }
 
+/* TODO: search function */
 .dropdown-menu::-webkit-scrollbar-track,
 .search-results-content::-webkit-scrollbar-track {
   background: rgb(40, 40, 40);
 }
 
+/* TODO: search function */
 .dropdown-menu::-webkit-scrollbar-thumb,
 .search-results-content::-webkit-scrollbar-thumb {
   background: rgb(100, 88, 60);
   border-radius: 3px;
 }
 
+/* TODO: search function */
 .dropdown-menu::-webkit-scrollbar-thumb:hover,
 .search-results-content::-webkit-scrollbar-thumb:hover {
   background: rgb(131, 165, 152);

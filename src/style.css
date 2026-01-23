@@ -1,10 +1,11 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Atkinson, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  	/* Gruvbox Palette */
+  /* Gruvbox Palette */
 	--accent: #fabd2f;
+	--accent-light: 189, 183, 136;
 	--accent-dark: #d79921;
 	--background: 40, 40, 40;
 	--background-light: 60, 60, 60;
@@ -30,8 +31,48 @@ body {
   /* place-items: center; */
   min-width: 320px;
   min-height: 100vh;
+  /* background: linear-gradient(var(--gray-gradient)) no-repeat; */
+	/* color: rgb(var(--gray-dark)); */
 }
 
+h1,h2,h3,h4,h5,h6 {
+  margin: 0 0 0.5rem 0;
+	color: rgb(var(--black));
+	line-height: 1.2;
+}
+
+h1 {
+	font-size: 3.052em;
+}
+
+h2 {
+	font-size: 2.441em;
+}
+
+h3 {
+	font-size: 1.953em;
+}
+
+h4 {
+	font-size: 1.563em;
+}
+
+h5 {
+	font-size: 1.25em;
+}
+
+#app {
+  width: 100%;
+  min-height: 100vh;
+  background: rgb(var(--background));
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
 /* #app { */
 /*   max-width: 1400px; */
 /*   margin: 0 auto; */
