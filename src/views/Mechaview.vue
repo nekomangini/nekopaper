@@ -5,7 +5,6 @@ import { mechaImages } from '../config/images.ts'
 
 <template>
   <div>
-    <p>Mecha View Content</p>
     <CategoryGallery :images="mechaImages" categoryName="Mecha" />
   </div>
 </template>

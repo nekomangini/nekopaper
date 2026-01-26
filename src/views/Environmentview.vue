@@ -5,7 +5,6 @@ import { environmentImages } from '../config/images.ts'
 
 <template>
   <div>
-    <p>Environment View Content</p>
     <CategoryGallery :images="environmentImages" categoryName="Environment" />
   </div>
 </template>

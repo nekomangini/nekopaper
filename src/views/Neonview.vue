@@ -5,7 +5,6 @@ import { neonImages } from '../config/images.ts'
 
 <template>
   <div>
-    <p>Neon View Content</p>
     <CategoryGallery :images="neonImages" categoryName="Neon" />
   </div>
 </template>
