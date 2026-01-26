@@ -5,7 +5,6 @@ import { animeImages } from '../config/images';
 
 <template>
   <div>
-    <p>Anime View Content</p>
     <CategoryGallery :images="animeImages" categoryName="Anime" />
   </div>
 </template>

@@ -5,7 +5,6 @@ import { artsImages } from '../config/images'
 
 <template>
   <div>
-    <p>Arts View Content</p>
     <CategoryGallery :images="artsImages" categoryName="Arts" />
   </div>
 </template>

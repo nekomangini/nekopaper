@@ -5,8 +5,6 @@ import { spaceImages } from '../config/images.ts'
 
 <template>
   <div>
-    <p>Space View Content</p>
-
     <CategoryGallery :images="spaceImages" categoryName="Space" />
   </div>
 </template>

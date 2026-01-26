@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue' // Added imports
 import { useRoute, useRouter } from 'vue-router'
 import { getImageBySlug } from '../config/images'
 
@@ -7,21 +7,41 @@ const route = useRoute()
 const router = useRouter()
 const slug = route.params.slug as string
 
-// Data source
 const image = computed(() => getImageBySlug(slug))
-
-// UI State
 const isSharePopupOpen = ref(false)
 const SITE_KOFI = "https://ko-fi.com/yourlink"
 
-// Methods
 const goBack = () => router.back()
 const toggleShare = () => isSharePopupOpen.value = !isSharePopupOpen.value
+
+// Close logic
+const closePopup = () => { isSharePopupOpen.value = false }
+
+const handleGlobalEvents = (e: any) => {
+  // Close on Escape key
+  if (e.key === 'Escape') closePopup()
+
+  // Close if clicking outside the share-wrapper
+  if (e.type === 'click' && !e.target.closest('.share-wrapper')) {
+    closePopup()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('click', handleGlobalEvents)
+  window.addEventListener('keydown', handleGlobalEvents)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('click', handleGlobalEvents)
+  window.removeEventListener('keydown', handleGlobalEvents)
+})
 
 const copyLink = async () => {
   try {
     await navigator.clipboard.writeText(window.location.href)
     alert("Link copied!")
+    closePopup() // Close after copying
   } catch (err) { console.error(err) }
 }
 
@@ -136,312 +156,299 @@ const shareLinks = computed(() => {
 </template>
 
 <style scoped>
-/* INSERT THE ENTIRE CSS YOU PROVIDED HERE */
-.download-nav {
-  max-width: 1400px;
-  margin: 20px auto 0;
-  padding: 0 32px;
+/* --- 1. Page Layout & Navigation --- */
+.download-page {
+  min-height: 100vh;
+  padding-bottom: 60px;
 }
 
-body {
-  background: #282828;
-  color: #ebdbb2;
-  min-height: 100vh;
+.download-nav {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 32px;
 }
 
 .back-btn {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: none;
-  border: none;
-  color: #666;
+  background: transparent;
+  border: 1.5px solid rgba(var(--gray-light), 0.2);
+  color: rgb(var(--gray-light));
   font-size: 0.9375rem;
   cursor: pointer;
-  padding: 8px 12px;
+  padding: 10px 16px;
   border-radius: 8px;
   transition: all 0.2s ease;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .back-btn:hover {
-  background: #f5f5f5;
-  color: #1a1a1a;
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(var(--accent-light), 0.05);
 }
 
-.website-name {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  letter-spacing: -0.02em;
-}
-
+/* --- 2. Hero Section & Image --- */
 .hero {
   max-width: 1400px;
-  margin: 48px auto;
+  margin: 20px auto 48px;
   padding: 0 32px;
 }
 
 .hero-container {
-  background: #fff;
+  background: rgb(var(--background-light));
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--box-shadow);
+  border: 1px solid rgba(var(--gray-light), 0.1);
 }
 
 .image-container {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  background: #f0f0f0;
+  background: rgb(var(--black));
   overflow: hidden;
 }
 
 .wallpaper-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: #000;
 }
 
+/* --- 3. Content & Information --- */
 .hero-content {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr 280px;
   gap: 48px;
-  padding: 40px 48px 48px;
-}
-
-.left-section {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  padding: 40px;
 }
 
 .wallpaper-name {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1a1a1a;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--accent);
   letter-spacing: -0.03em;
-  line-height: 1.2;
+  margin: 0 0 16px 0;
 }
 
 .main-info {
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-wrap: wrap;
+  margin-bottom: 24px;
 }
 
 .main-tag {
-  background: #1a1a1a;
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 8px;
+  background: var(--accent);
+  color: rgb(var(--black));
+  padding: 6px 14px;
+  border-radius: 6px;
   font-size: 0.875rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .resolution {
-  color: #666;
-  font-size: 0.9375rem;
+  color: rgba(var(--accent-light), 0.8);
+  font-size: 1rem;
   font-weight: 500;
 }
 
 .tags-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
 }
 
 .tag {
-  background: #f5f5f5;
-  color: #666;
-  padding: 6px 14px;
-  border-radius: 6px;
+  background: rgb(var(--gray-dark));
+  color: rgb(var(--gray-light));
+  padding: 8px 16px;
+  border-radius: 8px;
   font-size: 0.875rem;
   font-weight: 500;
   transition: all 0.2s ease;
-  cursor: pointer;
-  border: 1px solid transparent;
+  border: 1px solid rgba(var(--gray-light), 0.1);
 }
 
 .tag:hover {
-  background: #fff;
-  border-color: #e5e5e5;
-  color: #1a1a1a;
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
+/* --- 4. Credits Section --- */
 .credits {
-  margin-top: auto;
+  margin-top: 40px;
   padding-top: 24px;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid rgba(var(--gray-light), 0.1);
 }
 
 .credits-label {
-  font-size: 0.8125rem;
-  color: #999;
-  margin-bottom: 6px;
+  font-size: 0.75rem;
+  color: rgba(var(--gray-light), 0.5);
+  margin-bottom: 8px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
+  letter-spacing: 0.1em;
 }
 
 .credits-link {
-  color: #1a1a1a;
+  color: var(--accent);
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.9375rem;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  transition: color 0.2s ease;
+  gap: 8px;
 }
 
-.credits-link:hover {
-  color: #0066cc;
-}
-
+/* --- 5. Action Buttons (Merged & Fixed) --- */
 .right-section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  min-width: 200px;
-}
-
-.share-wrapper {
-  position: relative;
+  gap: 16px;
 }
 
 .action-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 16px 24px;
-  border-radius: 12px;
-  font-size: 0.9375rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-
-  box-sizing: border-box;
-  width: 100%;
+  gap: 12px;
   height: 56px;
-  line-height: 1;
-
+  padding: 0 24px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
   border: none;
-  white-space: nowrap;
   text-decoration: none;
+  width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Icon constraints within buttons */
+.btn-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.btn-icon path,
+.btn-icon circle {
+  stroke-width: 2.5px;
+}
+
+/* Button Variants */
 .download-btn {
-  background: #1a1a1a;
-  color: #fff;
-  text-decoration: none;
+  background: var(--accent);
+  color: rgb(var(--black));
 }
 
 .download-btn:hover {
-  background: #000;
+  background: var(--accent-dark);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.download-btn:active {
-  transform: translateY(0);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 .share-btn {
-  background: #fff;
-  color: #1a1a1a;
-  border: 1.5px solid #e5e5e5;
+  background: rgb(var(--gray-dark));
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
 }
 
 .share-btn:hover {
-  background: #fafafa;
-  border-color: #1a1a1a;
+  background: rgba(var(--accent-light), 0.1);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.kofi-btn {
+  background: #29abe0;
+  color: #fff;
+}
+
+.kofi-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+/* --- 6. Share Popup (CENTERED & ANIMATED) --- */
+.share-wrapper {
+  position: relative;
+  width: 100%;
 }
 
 .share-popup {
   position: absolute;
-  top: 110%;
-  right: 0;
-  background: #fff;
-  border: 1px solid #e5e5e5;
+  /* Move to middle of button */
+  bottom: 130%;
+  /* Center it and reset Y */
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  background: rgb(var(--gray-dark));
+  border: 1.5px solid var(--accent);
+
+  /* --- Width Adjustments --- */
+  min-width: 200px;
+  padding: 10px;
+  gap: 18px;
+  justify-content: center;
+  /* ------------------------- */
+
   border-radius: 12px;
-  padding: 8px;
   display: flex;
-  gap: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-  opacity: 0;
-  transform: translateY(-10px);
-  pointer-events: none;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.share-popup.hidden {
-  display: flex;
-  opacity: 0;
-  transform: translateY(-10px);
-  pointer-events: none;
-}
-
-.share-popup:not(.hidden) {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 1;
-  transform: translateY(0);
   pointer-events: auto;
 }
 
+.share-popup.hidden {
+  /* Maintain the X centering while animating the Y slide */
+  opacity: 0;
+  transform: translateX(-50%) translateY(10px);
+  pointer-events: none;
+}
+
+/* Centered Arrow */
+.share-popup::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--accent);
+}
+
 .social-link {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #1a1a1a;
-  background: #f5f5f5;
-  border: none;
-  cursor: pointer;
+  color: var(--accent);
+  background: rgba(var(--accent-light), 0.1);
   transition: all 0.2s ease;
-  text-decoration: none;
 }
 
 .social-link:hover {
-  background: #1a1a1a;
-  color: #fff;
-  transform: scale(1.1);
+  background: var(--accent);
+  color: rgb(var(--black));
 }
 
-.social-link svg {
-  width: 20px;
-  height: 20px;
-}
-
-.kofi-btn {
-  background: linear-gradient(135deg, #FF5E5B 0%, #FF3D00 100%);
-  color: #fff;
-  margin-top: 12px;
-  text-decoration: none;
-}
-
-.kofi-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255, 94, 91, 0.3);
-}
-
-.btn-icon {
-  width: 20px;
-  height: 20px;
-}
-
+/* --- 7. Responsive Queries --- */
 @media (max-width: 968px) {
   .hero-content {
     grid-template-columns: 1fr;
-    gap: 32px;
-    padding: 32px 24px;
+    padding: 30px;
   }
 
   .right-section {
@@ -449,144 +456,7 @@ body {
   }
 
   .wallpaper-name {
-    font-size: 1.75rem;
-  }
-
-  .share-popup {
-    right: 0;
-    left: auto;
+    font-size: 2rem;
   }
 }
-
-@media (max-width: 640px) {
-  .header-content {
-    padding: 0 20px;
-  }
-
-  .hero {
-    margin: 24px auto;
-    padding: 0 16px;
-  }
-
-  .hero-container {
-    border-radius: 16px;
-  }
-
-  .wallpaper-name {
-    font-size: 1.5rem;
-  }
-
-  .share-popup {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    background: #0a0a0a;
-    color: #fff;
-  }
-
-  header {
-    background: rgba(26, 26, 26, 0.95);
-    border-bottom-color: #2a2a2a;
-  }
-
-  .back-btn {
-    color: #999;
-  }
-
-  .back-btn:hover {
-    background: #1a1a1a;
-    color: #fff;
-  }
-
-  .website-name {
-    color: #fff;
-  }
-
-  .hero-container {
-    background: #1a1a1a;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-  }
-
-  .image-container {
-    background: #0a0a0a;
-  }
-
-  .wallpaper-name {
-    color: #fff;
-  }
-
-  .main-tag {
-    background: #fff;
-    color: #1a1a1a;
-  }
-
-  .resolution {
-    color: #999;
-  }
-
-  .tag {
-    background: #2a2a2a;
-    color: #999;
-    border-color: transparent;
-  }
-
-  .tag:hover {
-    background: #333;
-    border-color: #444;
-    color: #fff;
-  }
-
-  .credits {
-    border-top-color: #2a2a2a;
-  }
-
-  .credits-link {
-    color: #fff;
-  }
-
-  .credits-link:hover {
-    color: #4da3ff;
-  }
-
-  .download-btn {
-    background: #fff;
-    color: #1a1a1a;
-  }
-
-  .download-btn:hover {
-    background: #f0f0f0;
-  }
-
-  .share-btn {
-    background: #2a2a2a;
-    color: #fff;
-    border-color: #3a3a3a;
-  }
-
-  .share-btn:hover {
-    background: #333;
-    border-color: #fff;
-  }
-
-  .share-popup {
-    background: #2a2a2a;
-    border-color: #444;
-  }
-
-  .social-link {
-    background: #3a3a3a;
-    color: #fff;
-  }
-
-  .social-link:hover {
-    background: #fff;
-    color: #1a1a1a;
-  }
-}
-
-/* ... all other classes from your CSS ... */
 </style>

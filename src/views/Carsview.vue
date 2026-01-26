@@ -5,7 +5,6 @@ import { carsImages } from '../config/images.ts'
 
 <template>
   <div>
-    <p>Cars View Content</p>
     <CategoryGallery :images="carsImages" categoryName="Cars" />
   </div>
 </template>

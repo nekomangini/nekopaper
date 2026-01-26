@@ -5,7 +5,6 @@ import { abstractImages } from '../config/images'
 
 <template>
   <div>
-    <p>Abstract View Content</p>
     <CategoryGallery :images="abstractImages" categoryName="Abstract" />
   </div>
 </template>
