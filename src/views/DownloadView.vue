@@ -79,15 +79,18 @@ const shareLinks = computed(() => {
 
             <div class="main-info">
               <span class="main-tag">{{ image.category }}</span>
+              <!-- TODO: change the resolution according to the image file -->
               <span class="resolution">Ultra HD High Quality</span>
             </div>
 
+            <!-- TODO: change the tags according to the image file-->
             <div class="tags-container">
               <span class="tag">Desktop</span>
               <span class="tag">Wallpaper</span>
               <span class="tag">ネコpaper</span>
             </div>
 
+            <!-- TODO: change the source according to the image file -->
             <div class="credits">
               <div class="credits-label">Source</div>
               <a href="#" class="credits-link">
@@ -444,6 +447,7 @@ const shareLinks = computed(() => {
   color: rgb(var(--black));
 }
 
+/* TODO: Enlarge the image */
 /* --- 7. Responsive Queries --- */
 @media (max-width: 968px) {
   .hero-content {
