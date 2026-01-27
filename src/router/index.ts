@@ -1,18 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import GalleryView from '../views/GalleryView.vue'
-import AbstractView from '../views/AbstractView.vue'
-import Animeview from '../views/Animeview.vue'
-import Artsview from '../views/Artsview.vue'
-import Carsview from '../views/Carsview.vue'
-import Catsview from '../views/Catsview.vue'
-import Dogsview from '../views/Dogsview.vue'
-import Environmentview from '../views/Environmentview.vue'
-import Gamesview from '../views/Gamesview.vue'
-import Mechaview from '../views/Mechaview.vue'
-import Neonview from '../views/Neonview.vue'
-import Othersview from '../views/Othersview.vue'
-import Spaceview from '../views/Spaceview.vue'
-import DownloadView from '../views/DownloadView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,72 +6,72 @@ const router = createRouter({
     {
       path: '/',
       name: 'gallery',
-      component: GalleryView
+      component: () => import('../views/GalleryView.vue')
     },
     {
       path: '/abstract',
       name: 'abstract',
-      component: AbstractView
+      component: () => import('../views/AbstractView.vue')
     },
     {
       path: '/anime',
       name: 'anime',
-      component: Animeview
+      component: () => import('../views/Animeview.vue')
     },
     {
       path: '/arts',
       name: 'arts',
-      component: Artsview
+      component: () => import('../views/Artsview.vue')
     },
     {
       path: '/cars',
       name: 'cars',
-      component: Carsview
+      component: () => import('../views/Carsview.vue')
     },
     {
       path: '/cats',
       name: 'cats',
-      component: Catsview
+      component: () => import('../views/Catsview.vue')
     },
     {
       path: '/dogs',
       name: 'dogs',
-      component: Dogsview
+      component: () => import('../views/Dogsview.vue')
     },
     {
       path: '/environment',
       name: 'environment',
-      component: Environmentview
+      component: () => import('../views/Environmentview.vue')
     },
     {
       path: '/games',
       name: 'games',
-      component: Gamesview
+      component: () => import('../views/Gamesview.vue')
     },
     {
       path: '/mecha',
       name: 'mecha',
-      component: Mechaview
+      component: () => import('../views/Mechaview.vue')
     },
     {
       path: '/neon',
       name: 'neon',
-      component: Neonview
+      component: () => import('../views/Neonview.vue')
     },
     {
       path: '/others',
       name: 'others',
-      component: Othersview
+      component: () => import('../views/Othersview.vue')
     },
     {
       path: '/space',
       name: 'space',
-      component: Spaceview
+      component: () => import('../views/Spaceview.vue')
     },
     {
       path: '/:category/download/:slug',
       name: 'Download',
-      component: DownloadView
+      component: () => import('../views/DownloadView.vue')
     }
   ]
 })
