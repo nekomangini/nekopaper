@@ -39,7 +39,10 @@ const categories = [
         </button>
 
         <h1 class="site-logo">
-          <router-link to="/">{{ siteTitle }}</router-link>
+          <router-link to="/">
+            <span class="full-text">{{ siteTitle }}</span>
+            <span class="mobile-icon">ネコ</span>
+          </router-link>
         </h1>
       </div>
     </nav>
@@ -237,5 +240,22 @@ const categories = [
 .dropdown-menu::-webkit-scrollbar-thumb:hover,
 .search-results-content::-webkit-scrollbar-thumb:hover {
   background: rgb(131, 165, 152);
+}
+
+/* TODO: fix mobile view */
+.mobile-icon {
+  display: none;
+  /* Hidden by default on desktop */
+}
+
+@media (max-width: 768px) {
+  .full-text {
+    display: none;
+  }
+
+  .mobile-icon {
+    display: block;
+    font-size: 2.5rem;
+  }
 }
 </style>
