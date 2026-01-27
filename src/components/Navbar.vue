@@ -1,14 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 // 1. Define Props (e.g., from App.vue)
 defineProps<{ siteTitle: string }>();
 
 // 2. Reactive State
 const isMenuOpen = ref(false);
-const currentCategory = ref('anime'); // Example active state
+const route = useRoute()
 
 // 3. Toggle Logic
+const currentCategory = computed(() => {
+  return route.path.replace('/', '')
+})
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };
@@ -35,7 +39,7 @@ const categories = [
         </button>
 
         <h1 class="site-logo">
-          <a href="/">{{ siteTitle }}</a>
+          <router-link to="/">{{ siteTitle }}</router-link>
         </h1>
       </div>
     </nav>
@@ -47,10 +51,10 @@ const categories = [
         </div>
         <ul class="category-list">
           <li v-for="category in categories" :key="category">
-            <a :href="`#/${category.toLowerCase()}`" class="category-item"
+            <router-link :to="`/${category.toLowerCase()}`" class="category-item"
               :class="{ active: currentCategory === category.toLowerCase() }" @click="closeMenu">
               {{ category }}
-            </a>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -66,7 +70,6 @@ const categories = [
   margin: 0;
   padding: 0.12em 1rem;
   background: rgb(var(--background));
-  /* box-shadow: var(--box-shadow); */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   position: sticky;
   top: 0;
