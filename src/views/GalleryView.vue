@@ -52,17 +52,16 @@ const images = [
 }
 
 .gallery-view h2 {
+  color: var(--accent);
   font-size: 2.2rem;
   margin-bottom: 8px;
-  color: var(--accent);
   letter-spacing: -0.02em;
 }
 
 .category-count {
-  /* Wrapped in rgb() because accent-light is "189, 183, 136" */
   color: rgba(var(--accent-light), 0.8);
+  font-size: 1.2rem;
   margin-bottom: 40px;
-  font-size: 1.1rem;
 }
 
 .category-grid {
@@ -122,5 +121,26 @@ const images = [
 .category-card:hover .category-name {
   background: var(--accent);
   color: rgb(var(--black));
+}
+
+/* --- Responsive Text --- */
+@media (max-width: 768px) {
+  .gallery-view {
+    padding: 20px 15px;
+  }
+
+  .gallery-view h2 {
+    font-size: 1.6rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .category-count {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin: 0 auto 30px auto;
+  }
 }
 </style>

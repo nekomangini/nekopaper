@@ -23,7 +23,7 @@ const closeMenu = () => {
 
 // 4. Data
 const categories = [
-  "Abstract", "Anime", "Arts", "Cars", "Cats", "Dogs",
+  "Home", "Abstract", "Anime", "Arts", "Cars", "Cats", "Dogs",
   "Environment", "Games", "Mecha", "Neon", "Others", "Space"
 ];
 </script>
@@ -39,10 +39,7 @@ const categories = [
         </button>
 
         <h1 class="site-logo">
-          <router-link to="/">
-            <span class="full-text">{{ siteTitle }}</span>
-            <span class="mobile-icon">ネコ</span>
-          </router-link>
+          <router-link to="/">{{ siteTitle }} </router-link>
         </h1>
       </div>
     </nav>
@@ -54,8 +51,9 @@ const categories = [
         </div>
         <ul class="category-list">
           <li v-for="category in categories" :key="category">
-            <router-link :to="`/${category.toLowerCase()}`" class="category-item"
-              :class="{ active: currentCategory === category.toLowerCase() }" @click="closeMenu">
+            <router-link :to="category === 'Home' ? '/' : `/${category.toLowerCase()}`" class="category-item"
+              :class="{ active: (category === 'Home' && route.path === '/') || currentCategory === category.toLowerCase() }"
+              @click="closeMenu">
               {{ category }}
             </router-link>
           </li>
@@ -83,12 +81,17 @@ const categories = [
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-height: 60px;
 }
 
 .nav-left {
   display: flex;
   align-items: center;
   gap: 1.5rem;
+}
+
+.site-logo {
+  display: block;
 }
 
 .site-logo a {
@@ -242,20 +245,21 @@ const categories = [
   background: rgb(131, 165, 152);
 }
 
-/* TODO: fix mobile view */
-.mobile-icon {
-  display: none;
-  /* Hidden by default on desktop */
-}
-
 @media (max-width: 768px) {
-  .full-text {
+
+  .full-text,
+  .site-logo {
     display: none;
   }
 
-  .mobile-icon {
-    display: block;
-    font-size: 2.5rem;
+  .nav-left {
+    gap: 0;
   }
+
+  .nav-container {
+    min-height: 50px;
+    justify-content: flex-start;
+  }
+
 }
 </style>

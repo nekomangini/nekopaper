@@ -52,6 +52,38 @@ const shareLinks = computed(() => {
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
   }
 })
+
+// Image properties
+const resolutionDisplay = ref('Loading resolution...')
+const orientation = ref('Desktop') // Default fallback
+
+const handleImageLoad = (event: Event) => {
+  const img = event.target as HTMLImageElement
+  const w = img.naturalWidth
+  const h = img.naturalHeight
+
+  // naturalWidth and naturalHeight get the true size of the file, 
+  // not the size it is scaled to on the screen.
+  resolutionDisplay.value = `${w} x ${h}`
+
+  // Determine Orientation
+  if (w > h) {
+    orientation.value = 'Horizontal Monitor'
+  } else if (h > w) {
+    orientation.value = 'Vertical Monitor'
+  } else {
+    orientation.value = 'Square Display'
+  }
+}
+
+const firstName = computed(() => {
+  if (!image.value) return ''
+
+  // Try title first, then slug. 
+  // We split by space or hyphen and take the first item.
+  const name = image.value.title || image.value.slug || ''
+  return name.split(/[\s-]+/)[0]
+})
 </script>
 
 <template>
@@ -70,7 +102,7 @@ const shareLinks = computed(() => {
     <section class="hero">
       <div class="hero-container">
         <div class="image-container">
-          <img class="wallpaper-image" :src="image.src" :alt="image.title">
+          <img class="wallpaper-image" :src="image.src" :alt="image.title" @load="handleImageLoad">
         </div>
 
         <div class="hero-content">
@@ -79,27 +111,25 @@ const shareLinks = computed(() => {
 
             <div class="main-info">
               <span class="main-tag">{{ image.category }}</span>
-              <!-- TODO: change the resolution according to the image file -->
-              <span class="resolution">Ultra HD High Quality</span>
+              <span class="resolution">{{ resolutionDisplay }}</span>
             </div>
 
-            <!-- TODO: change the tags according to the image file-->
             <div class="tags-container">
-              <span class="tag">Desktop</span>
-              <span class="tag">Wallpaper</span>
+              <span class="tag">{{ orientation }}</span>
               <span class="tag">ネコpaper</span>
+              <span class="tag" v-if="firstName">{{ firstName.toLowerCase() }}</span>
             </div>
 
             <!-- TODO: change the source according to the image file -->
-            <div class="credits">
-              <div class="credits-label">Source</div>
-              <a href="#" class="credits-link">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
-                </svg>
-                Internal Assets
-              </a>
-            </div>
+            <!-- <div class="credits"> -->
+            <!--   <div class="credits-label">Source</div> -->
+            <!--   <a href="#" class="credits-link"> -->
+            <!--     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> -->
+            <!--       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" /> -->
+            <!--     </svg> -->
+            <!--     Internal Assets -->
+            <!--   </a> -->
+            <!-- </div> -->
           </div>
 
           <div class="right-section">
@@ -447,12 +477,25 @@ const shareLinks = computed(() => {
   color: rgb(var(--black));
 }
 
-/* TODO: Enlarge the image */
 /* --- 7. Responsive Queries --- */
 @media (max-width: 968px) {
   .hero-content {
     grid-template-columns: 1fr;
     padding: 30px;
+  }
+
+  .hero {
+    padding: 0 16px;
+    margin-top: 10px;
+  }
+
+  .image-container {
+    aspect-ratio: 4/5;
+    max-height: 30vh;
+  }
+
+  .wallpaper-image {
+    object-fit: cover;
   }
 
   .right-section {
