@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
-// 1. Define Props (e.g., from App.vue)
+// 1. Props 
 defineProps<{ siteTitle: string }>();
 
 // 2. Reactive State
@@ -219,30 +219,21 @@ const categories = [
   opacity: 0;
 }
 
-/* TODO: search function */
-/* Custom scrollbar for dropdown */
-.dropdown-menu::-webkit-scrollbar,
-.search-results-content::-webkit-scrollbar {
+.dropdown-menu::-webkit-scrollbar {
   width: 6px;
 }
 
-/* TODO: search function */
-.dropdown-menu::-webkit-scrollbar-track,
-.search-results-content::-webkit-scrollbar-track {
-  background: rgb(40, 40, 40);
-}
+/* .dropdown-menu::-webkit-scrollbar-track { */
+/*   background: rgb(40, 40, 40); */
+/* } */
 
-/* TODO: search function */
-.dropdown-menu::-webkit-scrollbar-thumb,
-.search-results-content::-webkit-scrollbar-thumb {
+.dropdown-menu::-webkit-scrollbar-thumb {
   background: rgb(100, 88, 60);
   border-radius: 3px;
 }
 
-/* TODO: search function */
-.dropdown-menu::-webkit-scrollbar-thumb:hover,
-.search-results-content::-webkit-scrollbar-thumb:hover {
-  background: rgb(131, 165, 152);
+.dropdown-menu::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--accent-light));
 }
 
 @media (max-width: 768px) {

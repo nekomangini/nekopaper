@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { ImageData } from '../config/images'
+import { useRoute, useRouter } from 'vue-router';
 
 // Props
 interface Props {
@@ -9,9 +10,11 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const route = useRoute()
+const router = useRouter()
 
 // Pagination State
-const currentPage = ref(1)
+const currentPage = ref(Number(route.query.page) || 1)
 const itemsPerPage = 12 // Adjusted to 12 for better grid alignment (divisible by 2, 3, and 4)
 
 const paginatedItems = computed(() => {
@@ -25,9 +28,14 @@ const totalPages = computed(() => Math.ceil(props.images.length / itemsPerPage))
 const goToPage = (page: number) => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page
+    // Push the page number to the URL query string
+    router.push({ query: { ...route.query, page: page } })
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
+watch(() => route.query.page, (newPage) => {
+  currentPage.value = Number(newPage) || 1
+})
 </script>
 
 <template>
@@ -39,7 +47,10 @@ const goToPage = (page: number) => {
 
     <div class="image-grid">
       <div v-for="img in paginatedItems" :key="img.slug" class="image-card">
-        <RouterLink :to="`/${img.category.toLowerCase()}/download/${img.slug}`" class="image-link">
+        <RouterLink :to="{
+          path: `/${img.category.toLowerCase()}/download/${img.slug}`,
+          query: { fromPage: currentPage }
+        }" class="image-link">
           <div class="card-image-wrapper">
             <img :src="img.src" :alt="img.title" loading="lazy" />
           </div>

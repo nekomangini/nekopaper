@@ -11,7 +11,17 @@ const image = computed(() => getImageBySlug(slug))
 const isSharePopupOpen = ref(false)
 const SITE_KOFI = "https://ko-fi.com/yourlink"
 
-const goBack = () => router.back()
+const goBack = () => {
+  const page = route.query.fromPage;
+  const category = image.value?.category.toLowerCase();
+
+  if (page && category) {
+    // Goes back to /arts?page=14
+    router.push({ path: `/${category}`, query: { page: page } });
+  } else {
+    router.back();
+  }
+}
 const toggleShare = () => isSharePopupOpen.value = !isSharePopupOpen.value
 
 // Close logic
@@ -94,7 +104,7 @@ const firstName = computed(() => {
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
-          Back to Gallery
+          Back to {{ image.category }}
         </button>
       </div>
     </header>
