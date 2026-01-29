@@ -1,5 +1,39 @@
-# Vue 3 + TypeScript + Vite
+# ネコpaper (NekoPaper) 🐈
+My Personal Aesthetic Collection of Wallpapers
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+ネコpaper is a custom-built Vue.js web interface designed to showcase and serve my curated repository of wallpapers. Built for speed, minimalism, and a consistent Gruvbox aesthetic.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## ✨ Features
+Curated Galleries: Browse through categorized collections (Anime, Cats, Abstract).
+
+Smart Downloads: Dedicated download views featuring image resolution and orientation detection (Horizontal vs. Vertical).
+
+Stateful Navigation: Remembers your pagination position when returning from a download.
+
+Responsive UI: Fully optimized for mobile and multi-monitor setups.
+
+Vibrant Themes: System-wide styling using the Gruvbox color palette.
+
+## 🛠️ Tech Stack
+Framework: Vue.js 3 (SFCs, Composition API)
+
+Routing: Vue Router with Lazy Loading
+
+Styling: Global CSS Variables (Gruvbox Theme)
+
+Metadata: Centralized image configuration for easy repository management.
+
+## 🚀 Quick Start
+```
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+```
+
+Created with ❤️ for a better desktop aesthetic.
+
