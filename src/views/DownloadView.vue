@@ -127,6 +127,7 @@ const firstName = computed(() => {
             <div class="tags-container">
               <span class="tag">{{ orientation }}</span>
               <span class="tag">ネコpaper</span>
+              <!-- TODO: Fix the tag name on downloadpage(regex) -->
               <span class="tag" v-if="firstName">{{ firstName.toLowerCase() }}</span>
             </div>
 
