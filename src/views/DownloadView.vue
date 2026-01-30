@@ -9,7 +9,7 @@ const slug = route.params.slug as string
 
 const image = computed(() => getImageBySlug(slug))
 const isSharePopupOpen = ref(false)
-const SITE_KOFI = "https://ko-fi.com/yourlink"
+const SITE_KOFI = "https://ko-fi.com/nekomangini"
 
 const goBack = () => {
   const page = route.query.fromPage;
