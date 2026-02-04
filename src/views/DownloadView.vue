@@ -86,13 +86,16 @@ const handleImageLoad = (event: Event) => {
   }
 }
 
-const firstName = computed(() => {
+const wallpaperName = computed(() => {
   if (!image.value) return ''
 
-  // Try title first, then slug. 
-  // We split by space or hyphen and take the first item.
-  const name = image.value.title || image.value.slug || ''
-  return name.split(/[\s-]+/)[0]
+  let name = image.value.title || image.value.slug || ''
+
+  return name
+    .replace(/\.[^/.]+$/, "")      // 1. Remove file extension (e.g., .webp)
+    .replace(/[_-]+/g, " ")        // 2. Replace all underscores and hyphens with spaces
+    .replace(/\s\d+$/, "")         // 3. Remove trailing numbers (e.g., " 001")
+    .trim()                        // 4. Remove extra spaces at start/end
 })
 </script>
 
@@ -127,8 +130,7 @@ const firstName = computed(() => {
             <div class="tags-container">
               <span class="tag">{{ orientation }}</span>
               <span class="tag">ネコpaper</span>
-              <!-- TODO: Fix the tag name on downloadpage(regex) -->
-              <span class="tag" v-if="firstName">{{ firstName.toLowerCase() }}</span>
+              <span class="tag" v-if="wallpaperName">{{ wallpaperName.toLowerCase() }}</span>
             </div>
 
             <!-- TODO: change the source according to the image file -->
