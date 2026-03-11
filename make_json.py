@@ -44,7 +44,7 @@ def generate_wallpaper_json():
                     }
                 )
 
-    all_wallpapers.sort(key=lambda x: x["category"])
+    all_wallpapers.sort(key=lambda x: (x["category"], x["title"]))
 
     # Save to the public folder where Github Pages/Helper looks
     output_path = os.path.join("public", "wallpapers.json")
