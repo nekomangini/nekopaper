@@ -70,8 +70,13 @@ const categories = [
 .navbar-header {
   margin: 0;
   padding: 0.12em 1rem;
-  background: rgb(var(--background));
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(
+    180deg,
+    rgba(2, 8, 5, 0.95) 0%,
+    rgba(2, 8, 5, 0.6) 70%,
+    transparent 100%
+  );
+  backdrop-filter: blur(4px);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -95,10 +100,12 @@ const categories = [
 }
 
 .site-logo a {
-  color: var(--accent);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.7rem;
+  color: var(--green-neon);
+  text-shadow: 0 0 20px rgba(57, 255, 110, 0.5);
+  letter-spacing: 0.2em;
   text-decoration: none;
-  font-weight: 700;
-  font-size: 2.8rem;
 }
 
 /* --- Hamburger Animation --- */
@@ -119,9 +126,14 @@ const categories = [
   display: block;
   width: 100%;
   height: 2px;
-  background: rgb(var(--gray-light));
+  background: var(--text-dim);
   border-radius: 2px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hamburger-menu.active span {
+  background: var(--green-neon);
+  box-shadow: 0 0 8px rgba(57, 255, 110, 0.5);
 }
 
 .hamburger-menu.active span:nth-child(1) {
@@ -143,26 +155,26 @@ const categories = [
   left: 0;
   width: 320px;
   max-height: calc(100vh - 80px);
-  background: rgb(50, 50, 50);
-  box-shadow: var(--box-shadow);
+  background: var(--bg-surface);
+  border: 1px solid var(--green-900);
   border-bottom-right-radius: 12px;
   overflow-y: auto;
   z-index: 99;
-  border: rbga(var(--background-light), 0.1);
 }
 
 .dropdown-header {
   padding: 1.25rem 1.5rem;
-  background: rgb(45, 45, 45);
-  border-bottom: 1px solid rgba(189, 183, 136, 0.1);
+  background: var(--bg-elevated);
+  border-bottom: 1px solid rgba(57, 255, 110, 0.1);
 }
 
 .dropdown-header h3 {
   margin: 0;
-  font-size: 0.8rem;
-  color: var(--accent);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  color: var(--green-500);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
 }
 
 /* --- Category Items --- */
@@ -175,7 +187,7 @@ const categories = [
 .category-item {
   display: block;
   padding: 0.9rem 1.5rem;
-  color: rgb(var(--accent-light));
+  color: var(--text-muted);
   text-decoration: none;
   font-size: 0.95rem;
   transition: all 0.2s ease;
@@ -183,15 +195,16 @@ const categories = [
 }
 
 .category-item:hover {
-  background: rgba(var(--background), 0.5);
-  color: var(--accent);
+  background: rgba(57, 255, 110, 0.05);
+  color: var(--green-300);
   padding-left: 1.8rem;
 }
 
 .category-item.active {
-  background: rgb(var(--gray-dark));
-  color: var(--accent-dark);
-  border-left: 4px solid var(--accent-dark);
+  background: rgba(57, 255, 110, 0.08);
+  color: var(--green-neon);
+  border-left: 4px solid var(--green-neon);
+  text-shadow: 0 0 10px rgba(57, 255, 110, 0.3);
   font-weight: 600;
 }
 
@@ -202,7 +215,7 @@ const categories = [
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(2px);
   z-index: 98;
 }
@@ -220,20 +233,20 @@ const categories = [
 }
 
 .dropdown-menu::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 
-/* .dropdown-menu::-webkit-scrollbar-track { */
-/*   background: rgb(40, 40, 40); */
-/* } */
+.dropdown-menu::-webkit-scrollbar-track {
+  background: var(--bg-abyss);
+}
 
 .dropdown-menu::-webkit-scrollbar-thumb {
-  background: rgb(100, 88, 60);
+  background: var(--green-900);
   border-radius: 3px;
 }
 
 .dropdown-menu::-webkit-scrollbar-thumb:hover {
-  background: rgb(var(--accent-light));
+  background: var(--green-700);
 }
 
 @media (max-width: 768px) {

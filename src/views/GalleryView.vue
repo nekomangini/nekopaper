@@ -1,44 +1,39 @@
 <script setup lang="ts">
-import abstractImg from '../assets/abstract/radiant/yellow_004.webp'
-import animeImg from '../assets/anime/chainsaw-man/makima_001.webp'
-import artImg from '../assets/arts/character-art/character_art_027.webp'
-import carImg from '../assets/cars/cars_009.webp'
-import catImg from '../assets/cats/cats_005.webp'
-import dogImg from '../assets/dogs/dogs_001.webp'
-import enviromentImg from '../assets/environment/environment_005.webp'
-import gameImg from '../assets/games/games_008.webp'
-import mechaImg from '../assets/mecha/mecha_001.webp'
-import neonImg from '../assets/neon/neon_001.webp'
-import otherImg from '../assets/others/others_001.webp'
-import spaceImg from '../assets/space/space_002.webp'
+import { ref, onMounted } from 'vue'
+import { getAllCategories, getImagesByCategory } from '../config/images'
 
-const images = [
-  { src: abstractImg, category: 'Abstract', route: 'abstract' },
-  { src: animeImg, category: 'Anime', route: 'anime' },
-  { src: artImg, category: 'Arts', route: 'arts' },
-  { src: carImg, category: 'Cars', route: 'cars' },
-  { src: catImg, category: 'Cats', route: 'cats' },
-  { src: dogImg, category: 'Dogs', route: 'dogs' },
-  { src: enviromentImg, category: 'Environment', route: 'environment' },
-  { src: gameImg, category: 'Games', route: 'games' },
-  { src: mechaImg, category: 'Mecha', route: 'mecha' },
-  { src: neonImg, category: 'Neon', route: 'neon' },
-  { src: otherImg, category: 'Others', route: 'others' },
-  { src: spaceImg, category: 'Space', route: 'space' }
-]
+interface CategoryCard {
+  name: string
+  route: string
+  src: string
+}
+
+const categories = ref<CategoryCard[]>([])
+
+onMounted(() => {
+  categories.value = getAllCategories().map(cat => {
+    const pool = getImagesByCategory(cat.route)
+    const random = pool[Math.floor(Math.random() * pool.length)]
+    return {
+      name: cat.name,
+      route: cat.route,
+      src: random?.src || cat.thumbnail
+    }
+  })
+})
 </script>
 
 <template>
   <div class="gallery-view">
     <h2>Available Categories</h2>
-    <p class="category-count">Browse {{ images.length }} categories</p>
+    <p class="category-count">Browse {{ categories.length }} categories</p>
 
     <div class="category-grid">
-      <router-link v-for="img in images" :key="img.category" :to="`/${img.route}`" class="category-card">
+      <router-link v-for="cat in categories" :key="cat.route" :to="`/${cat.route}`" class="category-card">
         <div class="card-image-wrapper">
-          <img :src="img.src" :alt="`${img.category} category`" loading="lazy" />
+          <img :src="cat.src" :alt="`${cat.name} category`" loading="lazy" />
         </div>
-        <p class="category-name">{{ img.category }}</p>
+        <p class="category-name">{{ cat.name }}</p>
       </router-link>
     </div>
   </div>
@@ -52,16 +47,20 @@ const images = [
 }
 
 .gallery-view h2 {
-  color: var(--accent);
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
   font-size: 2.2rem;
+  color: var(--green-neon);
+  text-shadow: 0 0 20px rgba(57, 255, 110, 0.3);
   margin-bottom: 8px;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.05em;
 }
 
 .category-count {
-  color: rgba(var(--accent-light), 0.8);
+  color: var(--text-dim);
   font-size: 1.2rem;
   margin-bottom: 40px;
+  letter-spacing: 0.1em;
 }
 
 .category-grid {
@@ -73,25 +72,25 @@ const images = [
 .category-card {
   display: block;
   text-decoration: none;
-  background: rgb(var(--background-light));
-  border-radius: 12px;
+  background: var(--bg-surface);
+  border: 1px solid rgba(57, 255, 110, 0.05);
   overflow: hidden;
-  /* Use your global box-shadow variable */
-  box-shadow: var(--box-shadow);
   transition: all 0.3s ease;
-  border: 1px solid rgba(var(--gray-light), 0.1);
 }
 
 .category-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--accent);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+  transform: translateY(-4px);
+  border-color: rgba(57, 255, 110, 0.3);
+  box-shadow:
+    0 0 25px rgba(57, 255, 110, 0.08),
+    0 8px 30px rgba(0, 0, 0, 0.5);
 }
 
 .card-image-wrapper {
   width: 100%;
   height: 250px;
   overflow: hidden;
+  background: var(--bg-abyss);
 }
 
 .category-card img {
@@ -99,11 +98,13 @@ const images = [
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.5s ease;
+  transition: transform 0.5s ease, filter 0.3s;
+  filter: brightness(0.85) saturate(0.9);
 }
 
 .category-card:hover img {
   transform: scale(1.05);
+  filter: brightness(1) saturate(1);
 }
 
 .category-name {
@@ -112,15 +113,16 @@ const images = [
   text-align: center;
   font-size: 1.1rem;
   font-weight: 700;
-  background: rgb(var(--gray-dark));
-  color: var(--accent);
+  background: var(--bg-elevated);
+  color: var(--green-300);
   transition: all 0.3s ease;
+  letter-spacing: 0.05em;
 }
 
-/* Match the footer/nav hover logic */
 .category-card:hover .category-name {
-  background: var(--accent);
-  color: rgb(var(--black));
+  background: var(--green-neon);
+  color: var(--bg-abyss);
+  text-shadow: none;
 }
 
 /* --- Responsive Text --- */

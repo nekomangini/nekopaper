@@ -1,70 +1,140 @@
+/* ═══════════════════════════════════════════════════════
+   CSS VARIABLES — Doom/Hacker aesthetic
+   ═══════════════════════════════════════════════════════ */
 :root {
-  font-family: Atkinson, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --bg-abyss: #020805;
+  --bg-deep: #050e08;
+  --bg-main: #0a1a0e;
+  --bg-surface: #0f2517;
+  --bg-elevated: #153220;
+  --green-900: #0d3f1f;
+  --green-700: #1a6b35;
+  --green-500: #2d9f50;
+  --green-400: #3faf6b;
+  --green-300: #5cd882;
+  --green-200: #7aeaa0;
+  --green-neon: #39ff6e;
+  --green-acid: #00ff4c;
+  --text-primary: #c8e0ca;
+  --text-muted: #5a8a60;
+  --text-dim: #2a5530;
+  --doom-red: #c42020;
+  --doom-orange: #d97826;
+  --doom-amber: #d4a828;
+  --scanline: rgba(0, 255, 76, 0.025);
+
+  /* Legacy variable mappings for component compatibility */
+  --accent: var(--green-neon);
+  --accent-light: 92, 216, 130;
+  --accent-dark: #1a6b35;
+  --background: 10, 26, 14;
+  --background-light: 15, 37, 23;
+  --black: 2, 8, 5;
+  --gray: 42, 85, 48;
+  --gray-light: 90, 138, 96;
+  --gray-dark: 5, 14, 8;
+  --box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.4),
+    0 8px 24px rgba(0, 0, 0, 0.5),
+    0 16px 32px rgba(0, 0, 0, 0.6);
+
+  font-family: 'Share Tech Mono', monospace;
   line-height: 1.5;
   font-weight: 400;
-
-  /* Gruvbox Palette */
-	--accent: #fabd2f;
-	--accent-light: 189, 183, 136;
-	--accent-dark: #d79921;
-	--background: 40, 40, 40;
-	--background-light: 60, 60, 60;
-	--black: 29, 32, 33;
-	--gray: 96, 99, 106;
-	--gray-light: 140, 140, 140;
-	--gray-dark: 20, 20, 20;
-	--box-shadow:
-		0 2px 6px rgba(var(--gray), 25%),
-		0 8px 24px rgba(var(--gray), 33%),
-		0 16px 32px rgba(var(--gray), 33%);
-
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
+/* ═══════════════════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════════════════ */
+*,
+*::before,
+*::after {
   margin: 0;
-  /* display: flex; */
-  /* place-items: center; */
-  min-width: 320px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Share Tech Mono', monospace;
+  background: var(--bg-abyss);
+  color: var(--text-primary);
   min-height: 100vh;
-  /* background: linear-gradient(var(--gray-gradient)) no-repeat; */
-	/* color: rgb(var(--gray-dark)); */
+  overflow-x: hidden;
+  min-width: 320px;
 }
 
-h1,h2,h3,h4,h5,h6 {
+/* Scanline overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    var(--scanline) 2px,
+    var(--scanline) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Vignette */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    transparent 55%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TYPOGRAPHY
+   ═══════════════════════════════════════════════════════ */
+h1, h2, h3, h4, h5, h6 {
   margin: 0 0 0.5rem 0;
-	color: rgb(var(--black));
-	line-height: 1.2;
+  line-height: 1.2;
+  color: var(--green-neon);
 }
 
-h1 {
-	font-size: 3.052em;
+h1 { font-size: 3.052em; }
+h2 { font-size: 2.441em; }
+h3 { font-size: 1.953em; }
+h4 { font-size: 1.563em; }
+h5 { font-size: 1.25em; }
+
+a {
+  color: var(--green-300);
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
-h2 {
-	font-size: 2.441em;
+a:hover {
+  color: var(--green-neon);
+  text-shadow: 0 0 10px rgba(57, 255, 110, 0.3);
 }
 
-h3 {
-	font-size: 1.953em;
-}
-
-h4 {
-	font-size: 1.563em;
-}
-
-h5 {
-	font-size: 1.25em;
-}
-
+/* ═══════════════════════════════════════════════════════
+   APP SHELL
+   ═══════════════════════════════════════════════════════ */
 #app {
   width: 100%;
   min-height: 100vh;
-  background: rgb(var(--background));
+  background: var(--bg-abyss);
 }
 
 .container {
@@ -73,22 +143,43 @@ h5 {
   padding: 2rem;
   text-align: center;
 }
-/* #app { */
-/*   max-width: 1400px; */
-/*   margin: 0 auto; */
-/*   padding: 2rem; */
-/*   text-align: center; */
-/* } */
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* ═══════════════════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════════════════ */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-abyss);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--green-900);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--green-700);
+}
+
+/* ═══════════════════════════════════════════════════════
+   UTILITY ANIMATIONS
+   ═══════════════════════════════════════════════════════ */
+@keyframes title-flicker {
+  0%, 92%, 94%, 96%, 100% { opacity: 1; }
+  93% { opacity: 0.85; }
+  95% { opacity: 0.92; }
+}
+
+@keyframes item-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
   }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }

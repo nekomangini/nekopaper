@@ -15,7 +15,7 @@ const router = useRouter()
 
 // Pagination State
 const currentPage = ref(Number(route.query.page) || 1)
-const itemsPerPage = 12 // Adjusted to 12 for better grid alignment (divisible by 2, 3, and 4)
+const itemsPerPage = 12
 
 const paginatedItems = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
@@ -28,7 +28,6 @@ const totalPages = computed(() => Math.ceil(props.images.length / itemsPerPage))
 const goToPage = (page: number) => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page
-    // Push the page number to the URL query string
     router.push({ query: { ...route.query, page: page } })
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -91,18 +90,22 @@ watch(() => route.query.page, (newPage) => {
 }
 
 .category-view h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
   font-size: 2.2rem;
   margin-bottom: 8px;
-  color: var(--accent);
-  letter-spacing: -0.02em;
+  color: var(--green-neon);
+  text-shadow: 0 0 20px rgba(57, 255, 110, 0.3);
+  letter-spacing: 0.05em;
 }
 
 .image-count {
-  color: rgba(var(--accent-light), 0.8);
+  color: var(--text-dim);
   font-size: 1.1rem;
+  letter-spacing: 0.1em;
 }
 
-/* --- Grid Logic (Matches GalleryView) --- */
+/* --- Grid Logic --- */
 .image-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -111,18 +114,18 @@ watch(() => route.query.page, (newPage) => {
 }
 
 .image-card {
-  background: rgb(var(--background-light));
-  border-radius: 12px;
+  background: var(--bg-surface);
+  border: 1px solid rgba(57, 255, 110, 0.05);
   overflow: hidden;
-  box-shadow: var(--box-shadow);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(var(--gray-light), 0.1);
 }
 
 .image-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--accent);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+  transform: translateY(-4px);
+  border-color: rgba(57, 255, 110, 0.3);
+  box-shadow:
+    0 0 25px rgba(57, 255, 110, 0.08),
+    0 8px 30px rgba(0, 0, 0, 0.5);
 }
 
 .image-link {
@@ -135,9 +138,8 @@ watch(() => route.query.page, (newPage) => {
 .card-image-wrapper {
   width: 100%;
   height: 220px;
-  /* Slightly shorter than category cards for a different feel */
   overflow: hidden;
-  background: rgb(var(--black));
+  background: var(--bg-abyss);
 }
 
 .card-image-wrapper img {
@@ -145,11 +147,13 @@ watch(() => route.query.page, (newPage) => {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.5s ease;
+  transition: transform 0.5s ease, filter 0.3s;
+  filter: brightness(0.85) saturate(0.9);
 }
 
 .image-card:hover img {
   transform: scale(1.08);
+  filter: brightness(1) saturate(1);
 }
 
 /* --- Title Styling --- */
@@ -159,8 +163,8 @@ watch(() => route.query.page, (newPage) => {
   text-align: center;
   font-size: 1rem;
   font-weight: 600;
-  background: rgb(var(--gray-dark));
-  color: var(--accent);
+  background: var(--bg-elevated);
+  color: var(--green-300);
   transition: all 0.3s ease;
   white-space: nowrap;
   overflow: hidden;
@@ -168,11 +172,12 @@ watch(() => route.query.page, (newPage) => {
 }
 
 .image-card:hover .image-title {
-  background: var(--accent);
-  color: rgb(var(--black));
+  background: var(--green-neon);
+  color: var(--bg-abyss);
+  text-shadow: none;
 }
 
-/* --- Pagination (Gruvbox Theme) --- */
+/* --- Pagination (Doom Theme) --- */
 .pagination-container {
   margin: 40px 0;
   display: flex;
@@ -190,35 +195,35 @@ watch(() => route.query.page, (newPage) => {
 
 .pagination button {
   padding: 8px 16px;
-  border: 1.5px solid var(--accent);
-  background: rgb(var(--background-light));
-  color: var(--accent);
+  border: 1px solid var(--green-900);
+  background: transparent;
+  color: var(--text-muted);
   cursor: pointer;
-  border-radius: 6px;
   transition: all 0.2s ease;
   font-weight: 600;
+  font-family: 'Share Tech Mono', monospace;
 }
 
 .pagination button:hover:not(:disabled) {
-  background: var(--accent);
-  color: rgb(var(--black));
+  border-color: var(--green-neon);
+  color: var(--green-neon);
+  text-shadow: 0 0 10px rgba(57, 255, 110, 0.3);
 }
 
 .pagination button.active {
-  background: var(--accent-dark);
-  color: rgb(var(--black));
-  border-color: var(--accent-dark);
+  background: rgba(57, 255, 110, 0.08);
+  color: var(--green-neon);
+  border-color: var(--green-neon);
+  text-shadow: 0 0 10px rgba(57, 255, 110, 0.3);
 }
 
 .pagination button:disabled {
   opacity: 0.3;
   cursor: not-allowed;
-  border-color: rgba(var(--gray-light), 0.2);
-  color: rgba(var(--gray-light), 0.4);
 }
 
 .page-info {
-  color: rgba(var(--gray-light), 0.6);
+  color: var(--text-dim);
   font-size: 0.9rem;
 }
 </style>
