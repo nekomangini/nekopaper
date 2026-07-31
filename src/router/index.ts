@@ -69,6 +69,11 @@ const router = createRouter({
       component: () => import('../views/Spaceview.vue')
     },
     {
+      path: '/search',
+      name: 'search',
+      component: () => import('../views/SearchView.vue')
+    },
+    {
       path: '/:category/download/:slug',
       name: 'Download',
       component: () => import('../views/DownloadView.vue')

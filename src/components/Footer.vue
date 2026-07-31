@@ -29,22 +29,17 @@ const today: Date = new Date()
 .site-footer {
   width: 100%;
   padding: 3rem 0;
-  /* Pushes footer to bottom if page content is short */
   margin-top: auto;
-  /* background: rgb(var(--background-light)); */
-  border-top: 1px solid rgba(var(--gray-light), 0.1);
+  border-top: 1px solid rgba(57, 255, 110, 0.08);
 }
 
 .footer-content {
   display: flex;
-  /* Stack text and icons vertically */
   flex-direction: column;
-  /* Center horizontally */
   align-items: center;
   justify-content: center;
-  /* Space between text and icons */
   gap: 1.5rem;
-  color: rgb(var(--accent-light));
+  color: var(--text-dim);
 }
 
 .footer-content p {
@@ -59,18 +54,18 @@ const today: Date = new Date()
 }
 
 .social-links a {
-  color: rgb(var(--accent-light));
+  color: var(--text-dim);
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
 }
 
 .social-links a:hover {
-  color: var(--accent);
+  color: var(--green-neon);
+  text-shadow: 0 0 10px rgba(57, 255, 110, 0.3);
   transform: translateY(-2px);
 }
 
-/* Ensure the SVG scales correctly */
 svg {
   fill: currentColor;
 }

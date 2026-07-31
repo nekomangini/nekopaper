@@ -1,102 +1,97 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue' // Added imports
-import { useRoute, useRouter } from 'vue-router'
-import { getImageBySlug } from '../config/images'
+import { ref, computed, onMounted, onUnmounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { getImageBySlug } from "../config/images";
 
-const route = useRoute()
-const router = useRouter()
-const slug = route.params.slug as string
+const route = useRoute();
+const router = useRouter();
+const slug = route.params.slug as string;
 
-const image = computed(() => getImageBySlug(slug))
-const isSharePopupOpen = ref(false)
-const SITE_KOFI = "https://ko-fi.com/nekomangini"
+const image = computed(() => getImageBySlug(slug));
+const isSharePopupOpen = ref(false);
+const SITE_KOFI = "https://ko-fi.com/nekomangini";
 
 const goBack = () => {
   const page = route.query.fromPage;
   const category = image.value?.category.toLowerCase();
 
   if (page && category) {
-    // Goes back to /arts?page=14
     router.push({ path: `/${category}`, query: { page: page } });
   } else {
     router.back();
   }
-}
-const toggleShare = () => isSharePopupOpen.value = !isSharePopupOpen.value
+};
+const toggleShare = () => (isSharePopupOpen.value = !isSharePopupOpen.value);
 
-// Close logic
-const closePopup = () => { isSharePopupOpen.value = false }
+const closePopup = () => {
+  isSharePopupOpen.value = false;
+};
 
 const handleGlobalEvents = (e: any) => {
-  // Close on Escape key
-  if (e.key === 'Escape') closePopup()
-
-  // Close if clicking outside the share-wrapper
-  if (e.type === 'click' && !e.target.closest('.share-wrapper')) {
-    closePopup()
+  if (e.key === "Escape") closePopup();
+  if (e.type === "click" && !e.target.closest(".share-wrapper")) {
+    closePopup();
   }
-}
+};
 
 onMounted(() => {
-  window.addEventListener('click', handleGlobalEvents)
-  window.addEventListener('keydown', handleGlobalEvents)
-})
+  window.addEventListener("click", handleGlobalEvents);
+  window.addEventListener("keydown", handleGlobalEvents);
+});
 
 onUnmounted(() => {
-  window.removeEventListener('click', handleGlobalEvents)
-  window.removeEventListener('keydown', handleGlobalEvents)
-})
+  window.removeEventListener("click", handleGlobalEvents);
+  window.removeEventListener("keydown", handleGlobalEvents);
+});
 
 const copyLink = async () => {
   try {
-    await navigator.clipboard.writeText(window.location.href)
-    alert("Link copied!")
-    closePopup() // Close after copying
-  } catch (err) { console.error(err) }
-}
+    await navigator.clipboard.writeText(window.location.href);
+    alert("Link copied!");
+    closePopup();
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 const shareLinks = computed(() => {
-  const url = encodeURIComponent(window.location.href)
+  const url = encodeURIComponent(window.location.href);
   return {
     twitter: `https://twitter.com/intent/tweet?url=${url}`,
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
-  }
-})
+  };
+});
 
-// Image properties
-const resolutionDisplay = ref('Loading resolution...')
-const orientation = ref('Desktop') // Default fallback
+const resolutionDisplay = ref("Loading resolution...");
+const orientation = ref("Desktop");
 
 const handleImageLoad = (event: Event) => {
-  const img = event.target as HTMLImageElement
-  const w = img.naturalWidth
-  const h = img.naturalHeight
+  const img = event.target as HTMLImageElement;
+  const w = img.naturalWidth;
+  const h = img.naturalHeight;
 
-  // naturalWidth and naturalHeight get the true size of the file, 
-  // not the size it is scaled to on the screen.
-  resolutionDisplay.value = `${w} x ${h}`
+  resolutionDisplay.value = `${w} x ${h}`;
 
-  // Determine Orientation
   if (w > h) {
-    orientation.value = 'Horizontal Monitor'
+    orientation.value = "Horizontal Monitor";
   } else if (h > w) {
-    orientation.value = 'Vertical Monitor'
+    orientation.value = "Vertical Monitor";
   } else {
-    orientation.value = 'Square Display'
+    orientation.value = "Square Display";
   }
-}
+};
 
 const wallpaperName = computed(() => {
-  if (!image.value) return ''
+  if (!image.value) return "";
 
-  let name = image.value.title || image.value.slug || ''
+  let name = image.value.title || image.value.slug || "";
 
   return name
-    .replace(/\.[^/.]+$/, "")      // 1. Remove file extension (e.g., .webp)
-    .replace(/[_-]+/g, " ")        // 2. Replace all underscores and hyphens with spaces
-    .replace(/\s\d+$/, "")         // 3. Remove trailing numbers (e.g., " 001")
-    .trim()                        // 4. Remove extra spaces at start/end
-})
+    .replace(/\.[^/.]+$/, "")
+    .replace(/[_-]+/g, " ")
+    .replace(/\s\d+$/, "")
+    .trim();
+});
 </script>
 
 <template>
@@ -104,7 +99,14 @@ const wallpaperName = computed(() => {
     <header class="download-nav">
       <div class="header-content">
         <button @click="goBack" class="back-btn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
           Back to {{ image.category }}
@@ -115,7 +117,12 @@ const wallpaperName = computed(() => {
     <section class="hero">
       <div class="hero-container">
         <div class="image-container">
-          <img class="wallpaper-image" :src="image.src" :alt="image.title" @load="handleImageLoad">
+          <img
+            class="wallpaper-image"
+            :src="image.src"
+            :alt="image.title"
+            @load="handleImageLoad"
+          />
         </div>
 
         <div class="hero-content">
@@ -128,34 +135,49 @@ const wallpaperName = computed(() => {
             </div>
 
             <div class="tags-container">
-              <span class="tag">{{ orientation }}</span>
-              <span class="tag">ネコpaper</span>
-              <span class="tag" v-if="wallpaperName">{{ wallpaperName.toLowerCase() }}</span>
+              <RouterLink
+                :to="{ path: '/search', query: { q: orientation } }"
+                class="tag"
+                >{{ orientation }}</RouterLink
+              >
+              <RouterLink
+                v-if="wallpaperName"
+                :to="{ path: '/search', query: { q: wallpaperName } }"
+                class="tag"
+                >{{ wallpaperName.toLowerCase() }}</RouterLink
+              >
             </div>
-
-            <!-- TODO: change the source according to the image file -->
-            <!-- <div class="credits"> -->
-            <!--   <div class="credits-label">Source</div> -->
-            <!--   <a href="#" class="credits-link"> -->
-            <!--     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> -->
-            <!--       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" /> -->
-            <!--     </svg> -->
-            <!--     Internal Assets -->
-            <!--   </a> -->
-            <!-- </div> -->
           </div>
 
           <div class="right-section">
-            <a :href="image.src" :download="image.slug" class="action-btn download-btn">
-              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+            <a
+              :href="image.src"
+              :download="image.slug"
+              class="action-btn download-btn"
+            >
+              <svg
+                class="btn-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path
+                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"
+                />
               </svg>
               Download
             </a>
 
             <div class="share-wrapper">
               <button @click="toggleShare" class="action-btn share-btn">
-                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <svg
+                  class="btn-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
                   <circle cx="18" cy="5" r="3" />
                   <circle cx="6" cy="12" r="3" />
                   <circle cx="18" cy="19" r="3" />
@@ -164,23 +186,42 @@ const wallpaperName = computed(() => {
                 Share
               </button>
 
-              <div class="share-popup" :class="{ 'hidden': !isSharePopupOpen }">
-                <a :href="shareLinks.twitter" target="_blank" class="social-link">
+              <div class="share-popup" :class="{ hidden: !isSharePopupOpen }">
+                <a
+                  :href="shareLinks.twitter"
+                  target="_blank"
+                  class="social-link"
+                >
                   <svg viewBox="0 0 24 24" fill="currentColor">
                     <path
-                      d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                      d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                    />
                   </svg>
                 </a>
-                <a :href="shareLinks.facebook" target="_blank" class="social-link">
+                <a
+                  :href="shareLinks.facebook"
+                  target="_blank"
+                  class="social-link"
+                >
                   <svg viewBox="0 0 24 24" fill="currentColor">
                     <path
-                      d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036c-2.093 0-2.87.717-2.87 2.69v1.28h3.456l-.466 3.667h-2.99v7.98H9.101z" />
+                      d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036c-2.093 0-2.87.717-2.87 2.69v1.28h3.456l-.466 3.667h-2.99v7.98H9.101z"
+                    />
                   </svg>
                 </a>
                 <button @click="copyLink" class="social-link">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+                    ></path>
+                    <path
+                      d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                    ></path>
                   </svg>
                 </button>
               </div>
@@ -189,7 +230,8 @@ const wallpaperName = computed(() => {
             <a :href="SITE_KOFI" target="_blank" class="action-btn kofi-btn">
               <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
                 <path
-                  d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.363.407 0 0 1.565-1.782 3.468-.963 1.904.82 1.832 3.011.723 4.311zm6.173.478c-.928.116-1.682.028-1.682.028V7.284h1.77s1.971.551 1.971 2.638c0 1.913-.985 2.667-2.059 3.015z" />
+                  d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.363.407 0 0 1.565-1.782 3.468-.963 1.904.82 1.832 3.011.723 4.311zm6.173.478c-.928.116-1.682.028-1.682.028V7.284h1.77s1.971.551 1.971 2.638c0 1.913-.985 2.667-2.059 3.015z"
+                />
               </svg>
               Support on Ko-fi
             </a>
@@ -219,20 +261,20 @@ const wallpaperName = computed(() => {
   align-items: center;
   gap: 8px;
   background: transparent;
-  border: 1.5px solid rgba(var(--gray-light), 0.2);
-  color: rgb(var(--gray-light));
+  border: 1px solid var(--green-900);
+  color: var(--text-muted);
   font-size: 0.9375rem;
   cursor: pointer;
   padding: 10px 16px;
-  border-radius: 8px;
   transition: all 0.2s ease;
   font-weight: 600;
+  font-family: "Share Tech Mono", monospace;
 }
 
 .back-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: rgba(var(--accent-light), 0.05);
+  border-color: var(--green-neon);
+  color: var(--green-neon);
+  text-shadow: 0 0 10px rgba(57, 255, 110, 0.3);
 }
 
 /* --- 2. Hero Section & Image --- */
@@ -243,18 +285,16 @@ const wallpaperName = computed(() => {
 }
 
 .hero-container {
-  background: rgb(var(--background-light));
-  border-radius: 24px;
+  background: var(--bg-surface);
+  border: 1px solid rgba(57, 255, 110, 0.05);
   overflow: hidden;
-  box-shadow: var(--box-shadow);
-  border: 1px solid rgba(var(--gray-light), 0.1);
 }
 
 .image-container {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  background: rgb(var(--black));
+  background: var(--bg-abyss);
   overflow: hidden;
 }
 
@@ -274,9 +314,11 @@ const wallpaperName = computed(() => {
 }
 
 .wallpaper-name {
+  font-family: "Orbitron", sans-serif;
   font-size: 2.5rem;
   font-weight: 800;
-  color: var(--accent);
+  color: var(--green-neon);
+  text-shadow: 0 0 20px rgba(57, 255, 110, 0.3);
   letter-spacing: -0.03em;
   margin: 0 0 16px 0;
 }
@@ -289,17 +331,16 @@ const wallpaperName = computed(() => {
 }
 
 .main-tag {
-  background: var(--accent);
-  color: rgb(var(--black));
+  background: var(--green-neon);
+  color: var(--bg-abyss);
   padding: 6px 14px;
-  border-radius: 6px;
   font-size: 0.875rem;
   font-weight: 700;
   text-transform: uppercase;
 }
 
 .resolution {
-  color: rgba(var(--accent-light), 0.8);
+  color: var(--text-muted);
   font-size: 1rem;
   font-weight: 500;
 }
@@ -311,46 +352,25 @@ const wallpaperName = computed(() => {
 }
 
 .tag {
-  background: rgb(var(--gray-dark));
-  color: rgb(var(--gray-light));
+  background: var(--bg-elevated);
+  color: var(--text-muted);
   padding: 8px 16px;
-  border-radius: 8px;
   font-size: 0.875rem;
   font-weight: 500;
   transition: all 0.2s ease;
-  border: 1px solid rgba(var(--gray-light), 0.1);
+  border: 1px solid rgba(57, 255, 110, 0.1);
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
 }
 
 .tag:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--green-neon);
+  color: var(--green-neon);
+  text-shadow: 0 0 10px rgba(57, 255, 110, 0.3);
 }
 
-/* --- 4. Credits Section --- */
-.credits {
-  margin-top: 40px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(var(--gray-light), 0.1);
-}
-
-.credits-label {
-  font-size: 0.75rem;
-  color: rgba(var(--gray-light), 0.5);
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.credits-link {
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* --- 5. Action Buttons (Merged & Fixed) --- */
+/* --- 4. Action Buttons --- */
 .right-section {
   display: flex;
   flex-direction: column;
@@ -364,7 +384,6 @@ const wallpaperName = computed(() => {
   gap: 12px;
   height: 56px;
   padding: 0 24px;
-  border-radius: 12px;
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
@@ -374,9 +393,9 @@ const wallpaperName = computed(() => {
   box-sizing: border-box;
   white-space: nowrap;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: "Share Tech Mono", monospace;
 }
 
-/* Icon constraints within buttons */
 .btn-icon {
   width: 22px;
   height: 22px;
@@ -391,24 +410,25 @@ const wallpaperName = computed(() => {
 
 /* Button Variants */
 .download-btn {
-  background: var(--accent);
-  color: rgb(var(--black));
+  background: var(--green-neon);
+  color: var(--bg-abyss);
 }
 
 .download-btn:hover {
-  background: var(--accent-dark);
+  box-shadow: 0 0 25px rgba(57, 255, 110, 0.4);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 .share-btn {
-  background: rgb(var(--gray-dark));
-  color: var(--accent);
-  border: 1.5px solid var(--accent);
+  background: transparent;
+  color: var(--green-300);
+  border: 1px solid var(--green-700);
 }
 
 .share-btn:hover {
-  background: rgba(var(--accent-light), 0.1);
+  background: rgba(57, 255, 110, 0.06);
+  border-color: var(--green-neon);
+  color: var(--green-neon);
   transform: translateY(-2px);
 }
 
@@ -422,7 +442,7 @@ const wallpaperName = computed(() => {
   transform: translateY(-2px);
 }
 
-/* --- 6. Share Popup (CENTERED & ANIMATED) --- */
+/* --- 5. Share Popup --- */
 .share-wrapper {
   position: relative;
   width: 100%;
@@ -430,22 +450,15 @@ const wallpaperName = computed(() => {
 
 .share-popup {
   position: absolute;
-  /* Move to middle of button */
   bottom: 130%;
-  /* Center it and reset Y */
   left: 50%;
   transform: translateX(-50%) translateY(0);
-  background: rgb(var(--gray-dark));
-  border: 1.5px solid var(--accent);
-
-  /* --- Width Adjustments --- */
+  background: var(--bg-surface);
+  border: 1px solid var(--green-700);
   min-width: 200px;
   padding: 10px;
   gap: 18px;
   justify-content: center;
-  /* ------------------------- */
-
-  border-radius: 12px;
   display: flex;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   z-index: 100;
@@ -455,42 +468,39 @@ const wallpaperName = computed(() => {
 }
 
 .share-popup.hidden {
-  /* Maintain the X centering while animating the Y slide */
   opacity: 0;
   transform: translateX(-50%) translateY(10px);
   pointer-events: none;
 }
 
-/* Centered Arrow */
 .share-popup::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-top: 8px solid var(--accent);
+  border-top: 8px solid var(--green-700);
 }
 
 .social-link {
   width: 44px;
   height: 44px;
-  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent);
-  background: rgba(var(--accent-light), 0.1);
+  color: var(--green-300);
+  background: rgba(57, 255, 110, 0.06);
   transition: all 0.2s ease;
 }
 
 .social-link:hover {
-  background: var(--accent);
-  color: rgb(var(--black));
+  background: var(--green-neon);
+  color: var(--bg-abyss);
 }
 
-/* --- 7. Responsive Queries --- */
+/* --- 6. Responsive Queries --- */
 @media (max-width: 968px) {
   .hero-content {
     grid-template-columns: 1fr;

@@ -47,6 +47,71 @@ export const getImageBySlug = (slug: string) => {
 }
 
 /**
+ * Orientation cache — maps src → 'horizontal' | 'vertical' | 'square'
+ */
+const orientationCache = new Map<string, string>()
+
+function getOrientation(src: string): Promise<string> {
+  const cached = orientationCache.get(src)
+  if (cached) return Promise.resolve(cached)
+
+  return new Promise((resolve) => {
+    const img = new Image()
+    img.onload = () => {
+      let orient: string
+      if (img.naturalWidth > img.naturalHeight) {
+        orient = 'horizontal'
+      } else if (img.naturalHeight > img.naturalWidth) {
+        orient = 'vertical'
+      } else {
+        orient = 'square'
+      }
+      orientationCache.set(src, orient)
+      resolve(orient)
+    }
+    img.onerror = () => {
+      orientationCache.set(src, 'unknown')
+      resolve('unknown')
+    }
+    img.src = src
+  })
+}
+
+/**
+ * Search images by query — matches title, category, or orientation
+ * Orientation keywords: "horizontal monitor", "vertical monitor", "square display"
+ */
+export async function searchImages(query: string): Promise<ImageData[]> {
+  const q = query.toLowerCase().trim()
+  if (!q) return []
+
+  // Check if query is an orientation keyword
+  const isOrientationSearch =
+    q.includes('horizontal') || q.includes('vertical') || q.includes('square')
+
+  if (isOrientationSearch) {
+    let targetOrientation = ''
+    if (q.includes('horizontal')) targetOrientation = 'horizontal'
+    else if (q.includes('vertical')) targetOrientation = 'vertical'
+    else if (q.includes('square')) targetOrientation = 'square'
+
+    // Check all images, load dimensions as needed
+    const checks = images.map(async (img) => {
+      const orient = await getOrientation(img.src)
+      return orient === targetOrientation ? img : null
+    })
+
+    const results = await Promise.all(checks)
+    return results.filter((r): r is ImageData => r !== null)
+  }
+
+  // Normal text search — matches title or category
+  return images.filter(
+    img => img.title.toLowerCase().includes(q) || img.category.toLowerCase().includes(q)
+  )
+}
+
+/**
  * Category helpers (computed once on import)
  */
 export const abstractImages = images.filter(i => i.category === 'abstract')
