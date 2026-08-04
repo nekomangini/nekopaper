@@ -3433,6 +3433,18 @@
       "imagePath": "assets/neon/neon_022.webp"
     },
     {
+      "title": "Hanni Pham",
+      "slug": "hanni-pham",
+      "category": "Others",
+      "imagePath": "assets/others/hanni_pham.jpg"
+    },
+    {
+      "title": "Kim Minji",
+      "slug": "kim-minji",
+      "category": "Others",
+      "imagePath": "assets/others/kim_minji.jpg"
+    },
+    {
       "title": "Others 001",
       "slug": "others-001",
       "category": "Others",
