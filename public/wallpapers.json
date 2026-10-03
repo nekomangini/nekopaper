@@ -1075,6 +1075,12 @@
       "imagePath": "assets/anime/vocaloid/hatsune_miku_002.webp"
     },
     {
+      "title": "Hatsune Miku 003",
+      "slug": "hatsune-miku-003",
+      "category": "Anime",
+      "imagePath": "assets/anime/vocaloid/hatsune_miku_003.webp"
+    },
+    {
       "title": "Hei Mask",
       "slug": "hei-mask",
       "category": "Anime",
@@ -1265,6 +1271,12 @@
       "slug": "makima-006",
       "category": "Anime",
       "imagePath": "assets/anime/chainsaw-man/makima_006.webp"
+    },
+    {
+      "title": "Makima 007",
+      "slug": "makima-007",
+      "category": "Anime",
+      "imagePath": "assets/anime/chainsaw-man/makima_007.webp"
     },
     {
       "title": "Mato Kuroi Kana Hanazawa",
@@ -1753,6 +1765,48 @@
       "imagePath": "assets/arts/character-art/character_art_036.webp"
     },
     {
+      "title": "Character Art 037",
+      "slug": "character-art-037",
+      "category": "Arts",
+      "imagePath": "assets/arts/character-art/character_art_037.webp"
+    },
+    {
+      "title": "Character Art 038",
+      "slug": "character-art-038",
+      "category": "Arts",
+      "imagePath": "assets/arts/character-art/character_art_038.webp"
+    },
+    {
+      "title": "Character Art 039",
+      "slug": "character-art-039",
+      "category": "Arts",
+      "imagePath": "assets/arts/character-art/character_art_039.webp"
+    },
+    {
+      "title": "Character Art 040",
+      "slug": "character-art-040",
+      "category": "Arts",
+      "imagePath": "assets/arts/character-art/character_art_040.webp"
+    },
+    {
+      "title": "Character Art 041",
+      "slug": "character-art-041",
+      "category": "Arts",
+      "imagePath": "assets/arts/character-art/character_art_041.webp"
+    },
+    {
+      "title": "Character Art 042",
+      "slug": "character-art-042",
+      "category": "Arts",
+      "imagePath": "assets/arts/character-art/character_art_042.webp"
+    },
+    {
+      "title": "Character Art 043",
+      "slug": "character-art-043",
+      "category": "Arts",
+      "imagePath": "assets/arts/character-art/character_art_043.webp"
+    },
+    {
       "title": "Environment Art 001",
       "slug": "environment-art-001",
       "category": "Arts",
@@ -1961,6 +2015,24 @@
       "slug": "environment-art-035",
       "category": "Arts",
       "imagePath": "assets/arts/environment-art/environment_art_035.webp"
+    },
+    {
+      "title": "Environment Art 036",
+      "slug": "environment-art-036",
+      "category": "Arts",
+      "imagePath": "assets/arts/environment-art/environment_art_036.webp"
+    },
+    {
+      "title": "Environment Art 037",
+      "slug": "environment-art-037",
+      "category": "Arts",
+      "imagePath": "assets/arts/environment-art/environment_art_037.webp"
+    },
+    {
+      "title": "Environment Art 038",
+      "slug": "environment-art-038",
+      "category": "Arts",
+      "imagePath": "assets/arts/environment-art/environment_art_038.webp"
     },
     {
       "title": "Etc Art 001",
@@ -3611,6 +3683,18 @@
       "slug": "space-008",
       "category": "Space",
       "imagePath": "assets/space/space_008.webp"
+    },
+    {
+      "title": "Space 009",
+      "slug": "space-009",
+      "category": "Space",
+      "imagePath": "assets/space/space_009.webp"
+    },
+    {
+      "title": "Space 010",
+      "slug": "space-010",
+      "category": "Space",
+      "imagePath": "assets/space/space_010.webp"
     }
   ]
 }
