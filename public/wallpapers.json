@@ -1183,6 +1183,12 @@
       "imagePath": "assets/anime/naruto/itachi_014.webp"
     },
     {
+      "title": "Izumi Kyouka",
+      "slug": "izumi-kyouka",
+      "category": "Anime",
+      "imagePath": "assets/anime/bungou-stray-dogs/izumi-kyouka.webp"
+    },
+    {
       "title": "Jujutsu Kaisen 001",
       "slug": "jujutsu-kaisen-001",
       "category": "Anime",
@@ -2503,6 +2509,12 @@
       "imagePath": "assets/cars/cars_047.webp"
     },
     {
+      "title": "Cars 048",
+      "slug": "cars-048",
+      "category": "Cars",
+      "imagePath": "assets/cars/cars_048.webp"
+    },
+    {
       "title": "Cats 001",
       "slug": "cats-001",
       "category": "Cats",
@@ -3503,6 +3515,18 @@
       "slug": "neon-022",
       "category": "Neon",
       "imagePath": "assets/neon/neon_022.webp"
+    },
+    {
+      "title": "Neon 023",
+      "slug": "neon-023",
+      "category": "Neon",
+      "imagePath": "assets/neon/neon_023.webp"
+    },
+    {
+      "title": "Neon 024",
+      "slug": "neon-024",
+      "category": "Neon",
+      "imagePath": "assets/neon/neon_024.webp"
     },
     {
       "title": "Hanni Pham",
