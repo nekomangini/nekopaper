@@ -799,6 +799,12 @@
       "imagePath": "assets/anime/dragonball/dragonball_032.webp"
     },
     {
+      "title": "Dragonball 033",
+      "slug": "dragonball-033",
+      "category": "Anime",
+      "imagePath": "assets/anime/dragonball/dragonball_033.webp"
+    },
+    {
       "title": "Evangelion 001",
       "slug": "evangelion-001",
       "category": "Anime",
@@ -1021,6 +1027,12 @@
       "imagePath": "assets/anime/pokemon/gengar.webp"
     },
     {
+      "title": "Giyu Tomioka",
+      "slug": "giyu-tomioka",
+      "category": "Anime",
+      "imagePath": "assets/anime/kimetsu-no-yaiba/giyu_tomioka.webp"
+    },
+    {
       "title": "Gojo 001",
       "slug": "gojo-001",
       "category": "Anime",
@@ -1051,6 +1063,12 @@
       "imagePath": "assets/anime/jujutsu-kaisen/gojo_005.webp"
     },
     {
+      "title": "Gojo 006",
+      "slug": "gojo-006",
+      "category": "Anime",
+      "imagePath": "assets/anime/jujutsu-kaisen/gojo_006.webp"
+    },
+    {
       "title": "Gurren Lagann 001",
       "slug": "gurren-lagann-001",
       "category": "Anime",
@@ -1061,6 +1079,12 @@
       "slug": "gurren-lagann-002",
       "category": "Anime",
       "imagePath": "assets/anime/gurren-lagann/gurren_lagann_002.webp"
+    },
+    {
+      "title": "Guts",
+      "slug": "guts",
+      "category": "Anime",
+      "imagePath": "assets/anime/berserk/guts.webp"
     },
     {
       "title": "Hatsune Miku 001",
@@ -1327,10 +1351,16 @@
       "imagePath": "assets/anime/my-hero-academia/momo_yaoyorozu.webp"
     },
     {
-      "title": "Nagato",
-      "slug": "nagato",
+      "title": "Nagato 001",
+      "slug": "nagato-001",
       "category": "Anime",
-      "imagePath": "assets/anime/naruto/nagato.webp"
+      "imagePath": "assets/anime/naruto/nagato_001.webp"
+    },
+    {
+      "title": "Nagato 002",
+      "slug": "nagato-002",
+      "category": "Anime",
+      "imagePath": "assets/anime/naruto/nagato_002.webp"
     },
     {
       "title": "Nichijou",
@@ -1411,6 +1441,12 @@
       "imagePath": "assets/anime/samurai-x/samurai_x_002.webp"
     },
     {
+      "title": "Sasuke",
+      "slug": "sasuke",
+      "category": "Anime",
+      "imagePath": "assets/anime/naruto/sasuke.webp"
+    },
+    {
       "title": "Shalltear",
       "slug": "shalltear",
       "category": "Anime",
@@ -1453,6 +1489,12 @@
       "imagePath": "assets/anime/studio-ghibli/studio_ghibli.webp"
     },
     {
+      "title": "Sukuna 001",
+      "slug": "sukuna-001",
+      "category": "Anime",
+      "imagePath": "assets/anime/jujutsu-kaisen/sukuna_001.webp"
+    },
+    {
       "title": "Susanoo",
       "slug": "susanoo",
       "category": "Anime",
@@ -1483,10 +1525,16 @@
       "imagePath": "assets/anime/naruto/uzumaki_naruto_002.webp"
     },
     {
-      "title": "Vagabond",
-      "slug": "vagabond",
+      "title": "Vagabond 001",
+      "slug": "vagabond-001",
       "category": "Anime",
-      "imagePath": "assets/anime/vagabond/vagabond.webp"
+      "imagePath": "assets/anime/vagabond/vagabond_001.webp"
+    },
+    {
+      "title": "Vagabond 002",
+      "slug": "vagabond-002",
+      "category": "Anime",
+      "imagePath": "assets/anime/vagabond/vagabond_002.webp"
     },
     {
       "title": "Valley Of End",
