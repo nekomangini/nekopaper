@@ -91,11 +91,35 @@ const surprise = computed(() => {
      (~250px), so only a thin strip at the top of the hero got any artwork. */
   grid-template-rows: 100%;
   gap: 6px;
-  filter: blur(26px) brightness(0.5) saturate(1.05);
-  transform: scale(1.06);
-  opacity: 0.85;
-  mask-image: radial-gradient(ellipse 85% 95% at 50% 42%, #000 30%, transparent 88%);
-  -webkit-mask-image: radial-gradient(ellipse 85% 95% at 50% 42%, #000 30%, transparent 88%);
+  filter: blur(7px) brightness(0.38) saturate(1.1);
+  transform: scale(1.04);
+  opacity: 0.9;
+  mask-image: radial-gradient(ellipse 95% 100% at 50% 45%, #000 40%, transparent 92%);
+  -webkit-mask-image: radial-gradient(ellipse 95% 100% at 50% 45%, #000 40%, transparent 92%);
+}
+
+/* Keeps the wordmark legible over less-blurred art: a soft pool of darkness
+   behind the copy plus a bottom fade into the Recently Added rail. */
+.hero:not(.hero--compact)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 58% 64% at 50% 44%,
+      rgba(2, 8, 5, 0.9) 0%,
+      rgba(2, 8, 5, 0.66) 46%,
+      transparent 82%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(2, 8, 5, 0.6) 0%,
+      transparent 32%,
+      transparent 68%,
+      rgba(2, 8, 5, 0.88) 100%
+    );
 }
 
 .hero-backdrop img {
@@ -208,7 +232,7 @@ const surprise = computed(() => {
   }
 
   .hero-backdrop {
-    filter: blur(16px) brightness(0.28) saturate(0.9);
+    filter: blur(6px) brightness(0.34) saturate(1.05);
   }
 
   .hero--compact {
