@@ -8,7 +8,14 @@ const today: Date = new Date()
       <p>&copy; {{ today.getFullYear() }} Nekomangini. All rights reserved.</p>
 
       <div class="social-links">
-        <a href="https://twitter.com/nekomangini" target="_blank" aria-label="Twitter">
+        <a href="/feed.xml" class="subscribe-link" title="RSS feed — get notified when new wallpapers are added">
+          <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+            <path fill="currentColor"
+              d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20 5 20 4 19 4 17.82c0-1.2.98-2.18 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z" />
+          </svg>
+          <span>Subscribe</span>
+        </a>
+        <a href="https://twitter.com/nekomangini" target="_blank" rel="noopener" aria-label="Twitter">
           <svg viewBox="0 0 16 16" width="24" height="24">
             <path fill="currentColor"
               d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
@@ -64,6 +71,18 @@ const today: Date = new Date()
   color: var(--green-neon);
   text-shadow: 0 0 10px rgba(57, 255, 110, 0.3);
   transform: translateY(-2px);
+}
+
+.subscribe-link {
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.subscribe-link span {
+  border-bottom: 1px dashed currentColor;
+  padding-bottom: 1px;
 }
 
 svg {

@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "feed": "node scripts/build-feed.mjs",
+    "seo": "node scripts/build-seo.mjs",
+    "postbuild": "node scripts/build-feed.mjs && node scripts/build-seo.mjs",
+    "metadata": "node scripts/generate-metadata.mjs"
   },
   "dependencies": {
     "vue": "^3.5.24",

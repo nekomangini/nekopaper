@@ -24,7 +24,7 @@ const closeMenu = () => {
 // 4. Data
 const categories = [
   "Home", "Abstract", "Anime", "Arts", "Cars", "Cats", "Dogs",
-  "Environment", "Games", "Mecha", "Neon", "Others", "Space"
+  "Environment", "Games", "Mecha", "Neon", "Others", "Space", "Changelog"
 ];
 </script>
 

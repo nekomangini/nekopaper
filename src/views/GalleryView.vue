@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { getAllCategories, getImagesByCategory } from '../config/images'
+import RecentAdded from '../components/RecentAdded.vue'
 
 interface CategoryCard {
   name: string
@@ -25,6 +26,8 @@ onMounted(() => {
 
 <template>
   <div class="gallery-view">
+    <RecentAdded />
+
     <h2>Available Categories</h2>
     <p class="category-count">Browse {{ categories.length }} categories</p>
 

@@ -74,6 +74,11 @@ const router = createRouter({
       component: () => import('../views/SearchView.vue')
     },
     {
+      path: '/changelog',
+      name: 'changelog',
+      component: () => import('../views/ChangelogView.vue')
+    },
+    {
       path: '/:category/download/:slug',
       name: 'Download',
       component: () => import('../views/DownloadView.vue')
