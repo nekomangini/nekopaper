@@ -3,8 +3,10 @@ import { computed } from 'vue'
 import { images } from '../config/images'
 import type { ImageData } from '../config/images'
 
-/** How many wallpapers to show in the rail */
-const LIMIT = 12
+/**
+ * 9 = one featured card (2×2) plus 8 small ones, which fills a 4×3 grid exactly.
+ */
+const LIMIT = 9
 /** A wallpaper keeps its NEW badge for this many days */
 const NEW_WINDOW_DAYS = 14
 
@@ -40,7 +42,7 @@ const formatDay = (iso: string): string =>
     year: 'numeric',
   })
 
-/** "Nov 17, 2026 · 12 new this week" — computed from the data, never hand-written */
+/** "Nov 17, 2026 · 12 new in the last 14 days" — computed from the data, never hand-written */
 const updatedLine = computed(() => {
   const latest = recent.value[0]
   if (!latest?.addedAt) return ''
@@ -58,22 +60,26 @@ const formatDate = (iso: string): string =>
 <template>
   <section v-if="recent.length" class="recent-added">
     <div class="recent-header">
-      <h2>Recently Added</h2>
-      <p v-if="updatedLine" class="updated-line">
-        <span class="pulse-dot" aria-hidden="true"></span>
-        {{ updatedLine }}
-      </p>
+      <div>
+        <h2>Recently Added</h2>
+        <p v-if="updatedLine" class="updated-line">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          {{ updatedLine }}
+        </p>
+      </div>
+      <RouterLink to="/changelog" class="see-all">See all updates &rarr;</RouterLink>
     </div>
 
     <div class="recent-grid">
       <RouterLink
-        v-for="img in recent"
+        v-for="(img, index) in recent"
         :key="img.slug"
         :to="{
           path: `/${img.category.toLowerCase()}/download/${img.slug}`,
           query: { fromPage: 1 },
         }"
         class="recent-card"
+        :class="{ featured: index === 0 }"
       >
         <div class="card-image-wrapper">
           <img :src="img.src" :alt="img.title" loading="lazy" />
@@ -98,6 +104,10 @@ const formatDate = (iso: string): string =>
 }
 
 .recent-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
   margin-bottom: 24px;
 }
 
@@ -112,9 +122,9 @@ const formatDate = (iso: string): string =>
 }
 
 .updated-line {
-  color: var(--text-dim);
+  color: var(--text-muted);
   font-size: 1rem;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.02em;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -142,14 +152,27 @@ const formatDate = (iso: string): string =>
   }
 }
 
+.see-all {
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green-300);
+  padding-bottom: 4px;
+}
+
 .recent-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 200px;
   gap: 20px;
 }
 
 .recent-card {
-  display: block;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
   text-decoration: none;
   background: var(--bg-surface);
   border: 1px solid rgba(57, 255, 110, 0.05);
@@ -165,10 +188,17 @@ const formatDate = (iso: string): string =>
     0 8px 30px rgba(0, 0, 0, 0.5);
 }
 
+/* The newest wallpaper gets the weight it is the reason to visit for */
+.recent-card.featured {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
 .card-image-wrapper {
   position: relative;
+  flex: 1;
+  min-height: 0;
   width: 100%;
-  height: 140px;
   overflow: hidden;
   background: var(--bg-abyss);
 }
@@ -213,6 +243,7 @@ const formatDate = (iso: string): string =>
 }
 
 .card-meta {
+  flex: none;
   padding: 12px;
   background: var(--bg-elevated);
 }
@@ -231,15 +262,46 @@ const formatDate = (iso: string): string =>
 .image-date {
   margin: 4px 0 0;
   font-size: 0.75rem;
-  color: var(--text-dim);
-  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+/* Featured caption sits on the artwork instead of in a bar */
+.recent-card.featured .card-meta {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(2, 8, 5, 0.92), rgba(2, 8, 5, 0));
+  padding: 48px 18px 16px;
+}
+
+.recent-card.featured .image-title {
+  font-size: 1.15rem;
+}
+
+.recent-card.featured .image-date {
+  font-size: 0.8rem;
 }
 
 .no-new-hint {
   margin-top: 16px;
-  color: var(--text-dim);
+  color: var(--text-muted);
   font-size: 0.9rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 900px) {
+  .recent-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 150px;
+    gap: 14px;
+  }
+
+  .recent-card.featured {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
 }
 
 @media (max-width: 768px) {
@@ -251,17 +313,20 @@ const formatDate = (iso: string): string =>
     font-size: 1.4rem;
   }
 
+  .recent-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+
   .updated-line {
     font-size: 0.85rem;
+    flex-wrap: wrap;
   }
 
-  .recent-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 14px;
-  }
-
-  .card-image-wrapper {
-    height: 110px;
+  .see-all {
+    font-size: 0.75rem;
+    padding-bottom: 0;
   }
 }
 </style>
