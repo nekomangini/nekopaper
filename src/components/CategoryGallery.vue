@@ -54,8 +54,25 @@ const sortedImages = computed<ImageData[]>(() => {
 })
 
 // Pagination State
-const currentPage = ref(Number(route.query.page) || 1)
 const itemsPerPage = 12
+
+const totalPages = computed(() =>
+  Math.max(1, Math.ceil(sortedImages.value.length / itemsPerPage)),
+)
+
+/**
+ * `?page=` comes from the URL, so it is clamped rather than trusted: a hand-typed
+ * `?page=999` used to render an empty grid labelled "Page 999 of 17", and negative
+ * values sliced from the end of the collection.
+ */
+const pageFromQuery = (value: unknown): number => {
+  const raw = Array.isArray(value) ? value[0] : value
+  const parsed = Math.floor(Number(raw))
+  if (!Number.isFinite(parsed) || parsed < 1) return 1
+  return Math.min(parsed, totalPages.value)
+}
+
+const currentPage = ref(pageFromQuery(route.query.page))
 
 /** Switching the ordering always restarts at page 1; keeps every other param. */
 const setSort = (mode: SortMode) => {
@@ -71,11 +88,8 @@ const setSort = (mode: SortMode) => {
 
 const paginatedItems = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
-  const end = start + itemsPerPage
-  return sortedImages.value.slice(start, end)
+  return sortedImages.value.slice(start, start + itemsPerPage)
 })
-
-const totalPages = computed(() => Math.ceil(sortedImages.value.length / itemsPerPage))
 
 const goToPage = (page: number) => {
   if (page >= 1 && page <= totalPages.value) {
@@ -84,8 +98,17 @@ const goToPage = (page: number) => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
+
 watch(() => route.query.page, (newPage) => {
-  currentPage.value = Number(newPage) || 1
+  currentPage.value = pageFromQuery(newPage)
+})
+
+/** A narrower collection (new search results, shorter category) must not strand the view on a dead page. */
+watch(totalPages, (total) => {
+  if (currentPage.value > total) {
+    currentPage.value = total
+    router.replace({ query: { ...route.query, page: total } })
+  }
 })
 </script>
 

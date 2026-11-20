@@ -120,7 +120,10 @@ function main() {
       const category = String(w.category ?? '').toLowerCase()
       const permalink = `${SITE_URL}/${category}/download/${w.slug}`
       const imageUrl = resolver.resolve(w.imagePath)
-      const addedShort = new Date(w.addedAt).toLocaleDateString('en-US', {
+      // Format the commit-local YYYY-MM-DD key, parsed at local midnight. Converting
+      // the full timestamp shifted the day on a UTC build (Netlify), so the feed
+      // disagreed with the changelog: wonyoung-001 showed Jan 30 there, Jan 31 here.
+      const addedShort = new Date(`${w.addedAt.slice(0, 10)}T00:00:00`).toLocaleDateString('en-US', {
         month: 'short',
         day: 'numeric',
         year: 'numeric',

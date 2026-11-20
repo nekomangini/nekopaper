@@ -5,9 +5,9 @@ import { getImageBySlug } from "../config/images";
 
 const route = useRoute();
 const router = useRouter();
-const slug = route.params.slug as string;
-
-const image = computed(() => getImageBySlug(slug));
+// Read the param inside the computed: downloading one wallpaper and then another
+// reuses this component, and a captured `route.params.slug` would stay stale.
+const image = computed(() => getImageBySlug(String(route.params.slug ?? "")));
 const isSharePopupOpen = ref(false);
 const SITE_KOFI = "https://ko-fi.com/nekomangini";
 
@@ -55,7 +55,9 @@ const copyLink = async () => {
 };
 
 const shareLinks = computed(() => {
-  const url = encodeURIComponent(window.location.href);
+  // route.fullPath is read so the computed recomputes on navigation; a computed
+  // over window.location alone has no reactive dependency and caches the first URL.
+  const url = encodeURIComponent(`${window.location.origin}${route.fullPath}`);
   return {
     twitter: `https://twitter.com/intent/tweet?url=${url}`,
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
@@ -240,7 +242,10 @@ const wallpaperName = computed(() => {
       </div>
     </section>
   </div>
-  <div v-else class="not-found">Loading Wallpaper...</div>
+  <div v-else class="not-found">
+    <p>Wallpaper not found.</p>
+    <RouterLink to="/">Back to the gallery</RouterLink>
+  </div>
 </template>
 
 <style scoped>

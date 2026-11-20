@@ -10,9 +10,9 @@ const isMenuOpen = ref(false);
 const route = useRoute()
 
 // 3. Toggle Logic
-const currentCategory = computed(() => {
-  return route.path.replace('/', '')
-})
+// First path segment only, so nested routes such as /anime/download/goku still
+// highlight the Anime entry (the old replace('/', '') left the whole tail in).
+const currentCategory = computed(() => route.path.split('/')[1] ?? '')
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };

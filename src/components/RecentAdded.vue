@@ -28,24 +28,31 @@ const newCount = computed(
   () => images.filter((img) => img.addedAt && isNew(img)).length,
 )
 
-/** "Nov 17, 2026 · 12 new this week" — computed from the data, never hand-written */
-const updatedLine = computed(() => {
-  const latest = recent.value[0]
-  if (!latest?.addedAt) return ''
-  const date = new Date(latest.addedAt).toLocaleDateString('en-US', {
+/**
+ * Commit-local day (YYYY-MM-DD), parsed at local midnight. Formatting the full
+ * timestamp instead would shift the day for visitors west of the commit offset and
+ * would disagree with the changelog grouping and the RSS feed.
+ */
+const formatDay = (iso: string): string =>
+  new Date(`${iso.slice(0, 10)}T00:00:00`).toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
   })
+
+/** "Nov 17, 2026 · 12 new this week" — computed from the data, never hand-written */
+const updatedLine = computed(() => {
+  const latest = recent.value[0]
+  if (!latest?.addedAt) return ''
   const count =
     newCount.value > 0
       ? ` · ${newCount.value} new in the last ${NEW_WINDOW_DAYS} days`
       : ''
-  return `Updated ${date}${count}`
+  return `Updated ${formatDay(latest.addedAt)}${count}`
 })
 
 const formatDate = (iso: string): string =>
-  new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  formatDay(iso).replace(/, \d{4}$/, '')
 </script>
 
 <template>
