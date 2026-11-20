@@ -1,8 +1,12 @@
+import addedDates from './addedDates.json'
+
 export interface ImageData {
   src: string
   title: string
   category: string
   slug: string
+  /** ISO-8601 date the wallpaper was first added (from git history) */
+  addedAt?: string
 }
 
 /**
@@ -12,6 +16,11 @@ const imageModules = import.meta.glob(
   '../assets/**/*.{webp,png,jpg,jpeg}',
   { eager: true, import: 'default' }
 ) as Record<string, string>
+
+/**
+ * Dates keyed by path relative to src/assets (e.g. "anime/naruto/nagato_001.webp")
+ */
+const addedDatesMap = addedDates as Record<string, string>
 
 /**
  * Convert file paths → ImageData[]
@@ -26,11 +35,15 @@ export const images: ImageData[] = Object.entries(imageModules).map(
 
     const slug = filename.toLocaleLowerCase().replace(/[_-]/g, '-')
 
+    // path relative to src/assets, used to look up the added date
+    const assetKey = path.split('/').slice(2).join('/')
+
     return {
       src,
       title: filename.replace(/[_-]/g, ' '),
       category,
-      slug
+      slug,
+      addedAt: addedDatesMap[assetKey]
     }
   }
 )

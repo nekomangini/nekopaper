@@ -1,41 +1,65 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
 import { getAllCategories, getImagesByCategory } from '../config/images'
+import type { ImageData } from '../config/images'
+import RecentAdded from '../components/RecentAdded.vue'
 
 interface CategoryCard {
   name: string
   route: string
   src: string
+  count: number
 }
 
-const categories = ref<CategoryCard[]>([])
+/**
+ * Newest wallpaper in a category. Picking this instead of a random one keeps the
+ * landing page stable across reloads, lets the browser cache the thumbnails, and
+ * doubles as a "what's fresh here" preview.
+ */
+const newestIn = (pool: ImageData[]): ImageData | undefined =>
+  pool.reduce<ImageData | undefined>((best, img) => {
+    if (!best) return img
+    if (!img.addedAt) return best
+    return !best.addedAt || img.addedAt > best.addedAt ? img : best
+  }, undefined)
 
-onMounted(() => {
-  categories.value = getAllCategories().map(cat => {
+/** Biggest collection first, so the grid has a hierarchy instead of a shuffle. */
+const categories: CategoryCard[] = getAllCategories()
+  .map((cat) => {
     const pool = getImagesByCategory(cat.route)
-    const random = pool[Math.floor(Math.random() * pool.length)]
     return {
       name: cat.name,
       route: cat.route,
-      src: random?.src || cat.thumbnail
+      src: newestIn(pool)?.src ?? cat.thumbnail,
+      count: cat.count,
     }
   })
-})
+  .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
+
+const totalWallpapers = categories.reduce((sum, cat) => sum + cat.count, 0)
 </script>
 
 <template>
   <div class="gallery-view">
-    <h2>Available Categories</h2>
-    <p class="category-count">Browse {{ categories.length }} categories</p>
+    <RecentAdded />
 
-    <div class="category-grid">
-      <router-link v-for="cat in categories" :key="cat.route" :to="`/${cat.route}`" class="category-card">
-        <div class="card-image-wrapper">
-          <img :src="cat.src" :alt="`${cat.name} category`" loading="lazy" />
-        </div>
-        <p class="category-name">{{ cat.name }}</p>
-      </router-link>
-    </div>
+    <section id="categories" class="category-section">
+      <h2>Categories</h2>
+      <p class="category-meta">
+        {{ totalWallpapers }} wallpapers across {{ categories.length }} collections
+      </p>
+
+      <div class="category-grid">
+        <router-link v-for="cat in categories" :key="cat.route" :to="`/${cat.route}`" class="category-card">
+          <div class="card-image-wrapper">
+            <img :src="cat.src" :alt="`${cat.name} category`" loading="lazy" />
+          </div>
+          <div class="category-footer">
+            <p class="category-name">{{ cat.name }}</p>
+            <span class="category-count">{{ cat.count }}</span>
+          </div>
+        </router-link>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -44,6 +68,10 @@ onMounted(() => {
   padding: 40px 20px;
   max-width: 1400px;
   margin: 0 auto;
+}
+
+.category-section {
+  scroll-margin-top: 90px;
 }
 
 .gallery-view h2 {
@@ -56,11 +84,11 @@ onMounted(() => {
   letter-spacing: 0.05em;
 }
 
-.category-count {
-  color: var(--text-dim);
-  font-size: 1.2rem;
+.category-meta {
+  color: var(--text-muted);
+  font-size: 1rem;
   margin-bottom: 40px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.02em;
 }
 
 .category-grid {
@@ -107,20 +135,37 @@ onMounted(() => {
   filter: brightness(1) saturate(1);
 }
 
-.category-name {
-  padding: 20px;
-  margin: 0;
-  text-align: center;
-  font-size: 1.1rem;
-  font-weight: 700;
+.category-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 18px 20px;
   background: var(--bg-elevated);
-  color: var(--green-300);
   transition: all 0.3s ease;
+}
+
+.category-name {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--green-300);
   letter-spacing: 0.05em;
 }
 
-.category-card:hover .category-name {
+.category-count {
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+.category-card:hover .category-footer {
   background: var(--green-neon);
+}
+
+.category-card:hover .category-name,
+.category-card:hover .category-count {
   color: var(--bg-abyss);
   text-shadow: none;
 }
@@ -134,15 +179,11 @@ onMounted(() => {
   .gallery-view h2 {
     font-size: 1.6rem;
     line-height: 1.2;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
-  .category-count {
+  .category-meta {
     font-size: 0.9rem;
-    opacity: 0.9;
-    margin: 0 auto 30px auto;
+    margin-bottom: 30px;
   }
 }
 </style>
