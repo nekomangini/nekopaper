@@ -83,16 +83,19 @@ const surprise = computed(() => {
 /* Latest artwork, blurred behind the title so the fold is not empty terminal space */
 .hero-backdrop {
   position: absolute;
-  inset: -10%;
+  inset: -8%;
   z-index: -1;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  /* Without an explicit row the grid sized itself from the image aspect ratio
+     (~250px), so only a thin strip at the top of the hero got any artwork. */
+  grid-template-rows: 100%;
   gap: 6px;
-  filter: blur(22px) brightness(0.32) saturate(0.9);
-  transform: scale(1.08);
-  opacity: 0.75;
-  mask-image: radial-gradient(ellipse 70% 80% at 50% 35%, #000 25%, transparent 78%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 80% at 50% 35%, #000 25%, transparent 78%);
+  filter: blur(26px) brightness(0.5) saturate(1.05);
+  transform: scale(1.06);
+  opacity: 0.85;
+  mask-image: radial-gradient(ellipse 85% 95% at 50% 42%, #000 30%, transparent 88%);
+  -webkit-mask-image: radial-gradient(ellipse 85% 95% at 50% 42%, #000 30%, transparent 88%);
 }
 
 .hero-backdrop img {
